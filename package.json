@@ -1,0 +1,18 @@
+{
+  "name": "project",
+  "private": true,
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "axios": "^0.18.0",
+    "moment": "^2.22.2",
+    "sweetalert2": "^7.29.0",
+    "tailwindcss": "^0.7.2",
+    "vue": "^2.5.17",
+    "vue-loader": "14.2.2",
+    "vue-template-compiler": "^2.5.17",
+    "vue-turbolinks": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}
