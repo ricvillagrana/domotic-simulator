@@ -90,7 +90,7 @@ export default {
           title: 'Nombre del piso',
           input: 'text',
           inputValue: floor.name,
-          preConfirm: (value) => {
+          preConfirm: value => {
             this.$axios.put(`/floors/${floor.id}`, {
               id: floor.id,
               name: value
@@ -145,9 +145,7 @@ export default {
     fetchFloors: function () {
       const that = this
       this.$axios.get('/floors.json')
-        .then(({
-          data
-        }) => {
+        .then(({data}) => {
           that.floors = data.floors
         })
     }
