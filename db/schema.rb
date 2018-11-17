@@ -10,11 +10,95 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_214734) do
+ActiveRecord::Schema.define(version: 2018_11_17_043625) do
+
+  create_table "actuator_logs", force: :cascade do |t|
+    t.integer "actuator_id"
+    t.datetime "moment"
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actuator_id"], name: "index_actuator_logs_on_actuator_id"
+  end
+
+  create_table "actuators", force: :cascade do |t|
+    t.string "name"
+    t.string "serial"
+    t.integer "unit_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_type_id"], name: "index_actuators_on_unit_type_id"
+  end
+
+  create_table "actuators_devices", force: :cascade do |t|
+    t.integer "device_id"
+    t.integer "actuator_id"
+    t.index ["actuator_id"], name: "index_actuators_devices_on_actuator_id"
+    t.index ["device_id"], name: "index_actuators_devices_on_device_id"
+  end
+
+  create_table "device_logs", force: :cascade do |t|
+    t.integer "device_id"
+    t.datetime "moment"
+    t.boolean "status"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_device_logs_on_device_id"
+  end
+
+  create_table "device_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "specifications"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "devices", force: :cascade do |t|
+    t.string "name"
+    t.string "serial"
+    t.text "description"
+    t.integer "device_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_type_id"], name: "index_devices_on_device_type_id"
+  end
+
+  create_table "devices_interfaces", force: :cascade do |t|
+    t.integer "device_id"
+    t.integer "interface_id"
+    t.index ["device_id"], name: "index_devices_interfaces_on_device_id"
+    t.index ["interface_id"], name: "index_devices_interfaces_on_interface_id"
+  end
+
+  create_table "devices_sensors", force: :cascade do |t|
+    t.integer "device_id"
+    t.integer "sensor_id"
+    t.index ["device_id"], name: "index_devices_sensors_on_device_id"
+    t.index ["sensor_id"], name: "index_devices_sensors_on_sensor_id"
+  end
 
   create_table "floors", force: :cascade do |t|
     t.string "name"
     t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "interfaces", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "network_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["network_id"], name: "index_interfaces_on_network_id"
+  end
+
+  create_table "networks", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.text "configuration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -28,6 +112,33 @@ ActiveRecord::Schema.define(version: 2018_11_15_214734) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["floor_id"], name: "index_rooms_on_floor_id"
+  end
+
+  create_table "sensor_logs", force: :cascade do |t|
+    t.integer "sensor_id"
+    t.datetime "moment"
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sensor_id"], name: "index_sensor_logs_on_sensor_id"
+  end
+
+  create_table "sensors", force: :cascade do |t|
+    t.string "name"
+    t.string "serial"
+    t.integer "unit_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_type_id"], name: "index_sensors_on_unit_type_id"
+  end
+
+  create_table "unit_types", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "unit"
+    t.string "symbol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
