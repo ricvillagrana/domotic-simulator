@@ -11,7 +11,7 @@
     <%= stylesheet_pack_tag 'application' %>
   </head>
 
-  <body class="h-full">
+  <body style="height: 100%!important;"> <!-- FIX: NEVER use inline styles, but swal overrides my CSS -->
     <div id="app" class="h-full">
       <layout>
         <%= yield %>

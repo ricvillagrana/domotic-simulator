@@ -11,8 +11,11 @@
           {{ item.name }}
         </li>
       </ul>
+      <div class="flex-1 flex">
+        <p class="flex self-end">apsn</p>
+      </div>
     </div>
-    <div class="flex flex-col flex-1 bg-grey-lighter">
+    <div class="flex flex-col flex-1 bg-grey-lighter p-8">
       <slot></slot>
     </div>
   </div>

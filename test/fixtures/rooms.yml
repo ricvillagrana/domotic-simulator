@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  floor: one
+  name: MyString
+  sizes: MyText
+  position: MyText
+  color: MyText
+
+two:
+  floor: two
+  name: MyString
+  sizes: MyText
+  position: MyText
+  color: MyText
