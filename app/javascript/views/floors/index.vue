@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-3xl pb-4 font-bold">Pisos <button @click="handleAdd" class="py-2 px-3 bg-blue hover:bg-blue-dark text-white font-normal text-sm rounded">Agregar</button></p>
+    <p class="text-3xl pb-4 font-bold">Pisos <button @click="handleAdd" class="button primary text-sm">Agregar</button></p>
     <div class="flex flex-row">
       <div class="flex flex-col flex-1 mx-4">
         <div v-if="floors.length === 0" class="self-center text-2xl text-grey-dark">
@@ -16,8 +16,8 @@
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in floors" :key="`data-${key}`">
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4 flex flex-row">
-                <button @click="handleEdit(row)" class="py-2 px-3 mx-1 bg-yellow hover:bg-yellow-dark text-dark font-normal text-sm rounded">Editar</button>
-                <button @click="handleDelete(row)" class="py-2 px-3 mx-1 bg-red hover:bg-red-dark text-white font-normal text-sm rounded">Eliminar</button>
+                <button @click="handleEdit(row)" class="button warning">Editar</button>
+                <button @click="handleDelete(row)" class="button danger">Eliminar</button>
               </td>
             </tr>
           </tbody>

@@ -11,6 +11,134 @@
  */
 @tailwind preflight;
 
+:focus {
+  outline-color: #3490dc;
+}
+
+.input {
+  @apply p-2;
+  @apply font-normal;
+  @apply rounded;
+  @apply text-grey-darkest;
+  @apply border;
+  @apply border-grey;
+}
+.input.error {
+  @apply border;
+  @apply border-red;
+}
+.input-error-message {
+  margin-top: -3px;
+  @apply border;
+  @apply border-red;
+  @apply p-2;
+  @apply text-white;
+  @apply bg-red-light;
+  @apply text-sm;
+  @apply rounded-b
+}
+
+.textarea {
+  @apply p-2;
+  @apply font-normal;
+  @apply rounded;
+  @apply text-grey-darkest;
+  @apply border;
+  @apply border-grey;
+  @apply h-64;
+}
+.textarea.error {
+  @apply border;
+  @apply border-red;
+}
+
+.label {
+  @apply mt-2;
+  @apply mb-1;
+  @apply font-bold;
+  @apply text-grey-darkest;
+}
+
+.button {
+  @apply py-2;
+  @apply px-3;
+  @apply mx-1;
+  @apply font-normal;
+  @apply rounded;
+  @apply bg-grey-dark;
+  @apply text-white;
+  transition-duration: 0.1s;
+} 
+.button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.button:hover {
+  @apply bg-grey-darker
+}
+
+.button.primary {
+  @apply bg-blue;
+  @apply text-white;
+}
+.button.primary:hover {
+  @apply bg-blue-dark
+}
+
+.button.success {
+  @apply bg-green;
+  @apply text-white;
+}
+.button.success:hover {
+  @apply bg-green-dark;
+}
+
+.button.danger {
+  @apply bg-red;
+  @apply text-white;
+}
+.button.danger:hover {
+  @apply bg-red-dark;
+}
+
+.button.warning {
+  @apply bg-yellow;
+  @apply text-black;
+}
+.button.warning:hover {
+  @apply bg-yellow-dark;
+}
+
+.button.teal {
+  @apply bg-teal;
+  @apply text-white;
+}
+.button.teal:hover {
+  @apply bg-teal-dark;
+}
+
+.button.purple {
+  @apply bg-purple;
+  @apply text-white;
+}
+.button.purple:hover {
+  @apply bg-purple-dark;
+}
+
+
+.spin {
+  -webkit-animation: spinner 1s infinite; /* Safari 4+ */
+  -moz-animation:    spinner 1s infinite; /* Fx 5+ */
+  -o-animation:      spinner 1s infinite; /* Opera 12+ */
+  animation:         spinner 1s infinite; /* IE 10+, Fx 29+ */
+}
+
+@keyframes spinner {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
+
 /**
  * This injects any component classes registered by plugins.
  *
@@ -27,7 +155,7 @@
  *
  * Example:
  *
- * .btn { ... }
+ * .button { ... }
  * .form-input { ... }
  *
  * Or if using a preprocessor or `postcss-import`:

@@ -10,7 +10,10 @@ import Layout from '../components/Layout/'
 import Pages from '../views/pages/'
 
 // Floors
-import Floors from '../views/floors/' 
+import Floors from '../views/floors/'
+
+// Networks
+import Networks from '../views/networks/'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$swal = swal
@@ -29,7 +32,8 @@ document.addEventListener('turbolinks:load', () => {
     components: {
       Pages,
       Layout,
-      Floors
+      Floors,
+      Networks
     }
   })
 })
