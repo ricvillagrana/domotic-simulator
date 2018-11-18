@@ -1,14 +1,11 @@
 class NetworksController < ApplicationController
   def index
-    @networks = Network.all
-    respond_to do |format|
-      format.html
-      format.json { render json: { networks: @networks, status: 200 } }
-    end
+    @networks = Network.all.order(id: :desc)
   end
 
   def create
     @network = Network.new(network_params)
+    @network.symbol = ActiveStorage::Blob.find params[:blob][:id]
     if @network.save
       render json: { network: @network, status: 200 }
     else
@@ -18,6 +15,8 @@ class NetworksController < ApplicationController
 
   def update
     @network = Network.find(params[:id])
+    @network.symbol = ActiveStorage::Blob.find params[:blob][:id]
+    @network.save
     if @network.update!(network_params)
       render json: { network: @network, status: 200 }
     else

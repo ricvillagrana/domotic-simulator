@@ -3,7 +3,7 @@
     <div class="fixed w-full h-full bg-black opacity-75 pin-t pin-l" @click="$emit('close')"></div>
     <div class="rounded overflow-hidden bg-white shadow-md border-1 border-solid border border-grey-lighter p-8 m-5 z-50"  :class="size ? `w-${size}` : 'w-1/2'">
       <header class="modal-card-head">
-        <p class="font-bold text-blue-darker text-3xl"><slot name="header"></slot></p>
+        <p class="title text-3xl"><slot name="header"></slot></p>
         <button class="delete" aria-label="close" @click="$emit('close')"></button>
       </header>
       <section class="mb-8">

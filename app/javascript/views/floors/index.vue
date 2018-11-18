@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p class="text-3xl pb-4 font-bold">Pisos <button @click="handleAdd" class="button primary text-sm">Agregar</button></p>
+    <p class="title text-3xl mb-2">Pisos <button @click="handleAdd" class="button primary text-sm">Agregar</button></p>
     <div class="flex flex-row">
-      <div class="flex flex-col flex-1 mx-4">
+      <div class="flex flex-col flex-1">
         <div v-if="floors.length === 0" class="self-center text-2xl text-grey-dark">
           No hay Pisos aún, <span @click="handleAdd" class="text-blue cursor-pointer">agrega uno</span>.
         </div>

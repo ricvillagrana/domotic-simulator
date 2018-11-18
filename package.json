@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "activestorage": "^5.2.1",
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "sweetalert2": "^7.29.0",

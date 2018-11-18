@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :floors
   resources :networks
 
-  get '*path' => redirect('/')
+  # get '*path' => redirect('/')
 end

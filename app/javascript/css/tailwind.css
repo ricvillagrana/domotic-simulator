@@ -15,6 +15,15 @@
   outline-color: #3490dc;
 }
 
+a {
+  text-decoration: none;
+}
+
+.title {
+  @apply font-bold;
+  @apply text-blue-darker;
+}
+
 .input {
   @apply p-2;
   @apply font-normal;
@@ -45,7 +54,7 @@
   @apply text-grey-darkest;
   @apply border;
   @apply border-grey;
-  @apply h-64;
+  @apply h-32;
 }
 .textarea.error {
   @apply border;
@@ -74,7 +83,7 @@
   opacity: 0.5;
 }
 .button:hover {
-  @apply bg-grey-darker
+  @apply bg-grey-dark;
 }
 
 .button.primary {
@@ -82,7 +91,7 @@
   @apply text-white;
 }
 .button.primary:hover {
-  @apply bg-blue-dark
+  @apply bg-blue-dark;
 }
 
 .button.success {
@@ -138,6 +147,65 @@
   to {transform: rotate(360deg);}
 }
 
+
+.dropzone {
+  @apply border-2;
+  @apply border-dashed;
+  @apply border-grey-dark;
+  @apply rounded;
+  padding: 0px 0px;
+  min-height: 150px;
+  transition-duration: 0.3s;
+}
+.dropzone .drop-reciever {
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: inherit;
+  opacity: 0;
+}
+.dropzone:hover {
+  @apply border-blue;
+}
+
+.dropzone-message {
+  position: relative;
+  top: 75px;
+}
+
+.dropzone .is-dragging {
+  @apply border-blue;
+}
+
+.dropzone-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.dropzone-content span {
+  padding: 5px;
+  margin: 5px;
+  border-radius: 10px;
+  @apply bg-white;
+  display: flex;
+  border-radius: 10px;
+  transition-duration: 0.3s;
+}
+.dropzone-content span:hover {
+  box-shadow: 0 5px 15px rgba(50,50,93,.1), 0 5px 15px rgba(96, 96, 96, 0.07);
+}
+.dropzone-content span a {
+  display: flex;
+  position: absolute;
+  z-index: 3;
+}
+.dropzone-content span img {
+  display: flex;
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: inherit;
+}
 
 /**
  * This injects any component classes registered by plugins.
