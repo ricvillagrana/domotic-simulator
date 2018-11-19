@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :floors
   resources :networks
+  resources :interfaces
 
   # get '*path' => redirect('/')
 end

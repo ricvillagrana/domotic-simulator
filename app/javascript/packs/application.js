@@ -9,11 +9,9 @@ import '../css/tailwind.css'
 import Layout from '../components/Layout/'
 import Pages from '../views/pages/'
 
-// Floors
 import Floors from '../views/floors/'
-
-// Networks
 import Networks from '../views/networks/'
+import Interfaces from '../views/Interfaces/'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$swal = swal
@@ -33,7 +31,8 @@ document.addEventListener('turbolinks:load', () => {
       Pages,
       Layout,
       Floors,
-      Networks
+      Networks,
+      Interfaces
     }
   })
 })

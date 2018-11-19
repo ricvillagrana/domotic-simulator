@@ -55,7 +55,7 @@ export default {
     handleSave: function () {
       this.saving = true
       const that = this
-      this.$swal({
+      if (that.currentNetwork.image) this.$swal({
         title: 'Subiendo imagen...',
         text: 'Espera, por favor...',
         onOpen: () => that.$swal.showLoading(),

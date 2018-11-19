@@ -5,7 +5,7 @@ class NetworksController < ApplicationController
 
   def create
     @network = Network.new(network_params)
-    @network.symbol = ActiveStorage::Blob.find params[:blob][:id]
+    @network.symbol = ActiveStorage::Blob.find params[:blob][:id] unless params[:blob].nil?
     if @network.save
       render json: { network: @network, status: 200 }
     else
@@ -15,8 +15,10 @@ class NetworksController < ApplicationController
 
   def update
     @network = Network.find(params[:id])
-    @network.symbol = ActiveStorage::Blob.find params[:blob][:id]
-    @network.save
+    unless params[:blob].nil?
+      @network.symbol = ActiveStorage::Blob.find params[:blob][:id]
+      @network.save
+    end
     if @network.update!(network_params)
       render json: { network: @network, status: 200 }
     else
