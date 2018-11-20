@@ -79,7 +79,7 @@ export default {
             that.currentInterface = {
               name: '',
               description: '',
-              image: null
+              network_id: 0
             }
             that.saving = false
             that.$swal.close()

@@ -48,6 +48,10 @@ export default {
           {
             name: 'Redes',
             path: '/networks'
+          },
+          {
+            name: 'Unidades de medidición',
+            path: '/unit_types'
           }
         ]
       },

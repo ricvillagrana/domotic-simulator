@@ -11,7 +11,8 @@ import Pages from '../views/pages/'
 
 import Floors from '../views/floors/'
 import Networks from '../views/networks/'
-import Interfaces from '../views/Interfaces/'
+import Interfaces from '../views/interfaces/'
+import UnitTypes from '../views/unit_types/'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$swal = swal
@@ -32,7 +33,8 @@ document.addEventListener('turbolinks:load', () => {
       Layout,
       Floors,
       Networks,
-      Interfaces
+      Interfaces,
+      UnitTypes
     }
   })
 })
