@@ -55,57 +55,99 @@ export default {
     handleSave: function () {
       this.saving = true
       const that = this
-      if (that.currentNetwork.image) this.$swal({
-        title: 'Subiendo imagen...',
-        text: 'Espera, por favor...',
-        onOpen: () => that.$swal.showLoading(),
-      })
-      const upload = new ActiveStorage.DirectUpload(that.currentNetwork.image.raw, '/rails/active_storage/direct_uploads')
-      upload.create((error, blob) => {
-        if (error) console.log(error)
-        else {
-          if (this.network) {
-            this.$axios.put(`/networks/${this.network.id}`, {
-              name: that.currentNetwork.name,
-              description: that.currentNetwork.description,
-              blob: blob
-            })
-              .then(({data}) => {
-                that.saving = false
-                that.$swal.close()
-                that.$emit('close')
-                that.$emit('fetch')
-              }).catch(err => {
-                console.log(err)
+      if (that.currentNetwork.image) {
+        if (that.currentNetwork.image) this.$swal({
+          title: 'Subiendo imagen...',
+          text: 'Espera, por favor...',
+          onOpen: () => that.$swal.showLoading(),
+        })
+        const upload = new ActiveStorage.DirectUpload(that.currentNetwork.image.raw, '/rails/active_storage/direct_uploads')
+        upload.create((error, blob) => {
+          if (error) console.log(error)
+          else {
+            if (this.network) {
+              this.$axios.put(`/networks/${this.network.id}`, {
+                name: that.currentNetwork.name,
+                description: that.currentNetwork.description,
+                blob: blob
               })
-          } else {
-            that.$axios.post('/networks', {
-              name: that.currentNetwork.name,
-              description: that.currentNetwork.description,
-              blob: blob
-            })
-              .then(result => {
-                that.currentNetwork = {
-                  name: '',
-                  description: '',
-                  image: null
-                }
-                that.saving = false
-                that.$swal.close()
-                that.$emit('close')
-                that.$emit('fetch')
-              })
-              .catch(err => {
-                that.$swal({
-                  type: 'error',
-                  title: 'Error en el servidor',
-                  text: err
+                .then(({data}) => {
+                  that.saving = false
+                  that.$swal.close()
+                  that.$emit('close')
+                  that.$emit('fetch')
+                }).catch(err => {
+                  console.log(err)
                 })
-                that.saving = false
+            } else {
+              that.$axios.post('/networks', {
+                name: that.currentNetwork.name,
+                description: that.currentNetwork.description,
+                blob: blob
               })
+                .then(result => {
+                  that.currentNetwork = {
+                    name: '',
+                    description: '',
+                    image: null
+                  }
+                  that.saving = false
+                  that.$swal.close()
+                  that.$emit('close')
+                  that.$emit('fetch')
+                })
+                .catch(err => {
+                  that.$swal({
+                    type: 'error',
+                    title: 'Error en el servidor',
+                    text: err
+                  })
+                  that.saving = false
+                })
+            }
           }
+        })
+      } else {
+        if (this.network) {
+          this.$axios.put(`/networks/${this.network.id}`, {
+            name: that.currentNetwork.name,
+            description: that.currentNetwork.description
+          })
+            .then(({data}) => {
+              that.saving = false
+              that.$swal.close()
+              that.$emit('close')
+              that.$emit('fetch')
+            }).catch(err => {
+              console.log(err)
+            })
+        } else {
+          that.$axios.post('/networks', {
+            name: that.currentNetwork.name,
+            description: that.currentNetwork.description
+          })
+            .then(result => {
+              that.currentNetwork = {
+                name: '',
+                description: '',
+                image: null
+              }
+              that.saving = false
+              that.$swal.close()
+              that.$emit('close')
+              that.$emit('fetch')
+            })
+            .catch(err => {
+              that.$swal({
+                type: 'error',
+                title: 'Error en el servidor',
+                text: err
+              })
+              that.saving = false
+            })
         }
-      })
+      }
+      
     },
     uploadImage: function (image) {
       const that = this
