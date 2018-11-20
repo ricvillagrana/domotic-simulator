@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2018_11_18_011617) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   end
 
   create_table "actuator_logs", force: :cascade do |t|
-    t.integer "actuator_id"
+    t.bigint "actuator_id"
     t.datetime "moment"
     t.text "value"
     t.datetime "created_at", null: false
@@ -45,21 +48,21 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   create_table "actuators", force: :cascade do |t|
     t.string "name"
     t.string "serial"
-    t.integer "unit_type_id"
+    t.bigint "unit_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["unit_type_id"], name: "index_actuators_on_unit_type_id"
   end
 
   create_table "actuators_devices", force: :cascade do |t|
-    t.integer "device_id"
-    t.integer "actuator_id"
+    t.bigint "device_id"
+    t.bigint "actuator_id"
     t.index ["actuator_id"], name: "index_actuators_devices_on_actuator_id"
     t.index ["device_id"], name: "index_actuators_devices_on_device_id"
   end
 
   create_table "device_logs", force: :cascade do |t|
-    t.integer "device_id"
+    t.bigint "device_id"
     t.datetime "moment"
     t.boolean "status"
     t.text "details"
@@ -80,22 +83,22 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.string "name"
     t.string "serial"
     t.text "description"
-    t.integer "device_type_id"
+    t.bigint "device_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_type_id"], name: "index_devices_on_device_type_id"
   end
 
   create_table "devices_interfaces", force: :cascade do |t|
-    t.integer "device_id"
-    t.integer "interface_id"
+    t.bigint "device_id"
+    t.bigint "interface_id"
     t.index ["device_id"], name: "index_devices_interfaces_on_device_id"
     t.index ["interface_id"], name: "index_devices_interfaces_on_interface_id"
   end
 
   create_table "devices_sensors", force: :cascade do |t|
-    t.integer "device_id"
-    t.integer "sensor_id"
+    t.bigint "device_id"
+    t.bigint "sensor_id"
     t.index ["device_id"], name: "index_devices_sensors_on_device_id"
     t.index ["sensor_id"], name: "index_devices_sensors_on_sensor_id"
   end
@@ -110,7 +113,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   create_table "interfaces", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "network_id"
+    t.bigint "network_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["network_id"], name: "index_interfaces_on_network_id"
@@ -125,7 +128,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   end
 
   create_table "rooms", force: :cascade do |t|
-    t.integer "floor_id"
+    t.bigint "floor_id"
     t.string "name"
     t.text "sizes"
     t.text "position"
@@ -136,7 +139,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   end
 
   create_table "sensor_logs", force: :cascade do |t|
-    t.integer "sensor_id"
+    t.bigint "sensor_id"
     t.datetime "moment"
     t.text "value"
     t.datetime "created_at", null: false
@@ -147,14 +150,13 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   create_table "sensors", force: :cascade do |t|
     t.string "name"
     t.string "serial"
-    t.integer "unit_type_id"
+    t.bigint "unit_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["unit_type_id"], name: "index_sensors_on_unit_type_id"
   end
 
   create_table "unit_types", force: :cascade do |t|
-    t.string "name"
     t.string "description"
     t.string "unit"
     t.string "symbol"
@@ -162,4 +164,13 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "actuators_devices", "actuators"
+  add_foreign_key "actuators_devices", "devices"
+  add_foreign_key "devices", "device_types"
+  add_foreign_key "devices_interfaces", "devices"
+  add_foreign_key "devices_interfaces", "interfaces"
+  add_foreign_key "devices_sensors", "devices"
+  add_foreign_key "devices_sensors", "sensors"
+  add_foreign_key "interfaces", "networks"
+  add_foreign_key "rooms", "floors"
 end

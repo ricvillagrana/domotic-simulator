@@ -14,13 +14,16 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolo', 'Nombre', 'Descripción', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Descripción', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in networks" :key="`data-${key}`">
-              <td class="border border-grey-light py-2 px-4 text-center" v-if="row.symbol"><img class="w-12" :src="row.symbol.url" :alt="row.symbol.name"></td>
-              <td class="border border-grey-light py-2 px-4 text-center text-grey-dark" v-else><i class="fa fa-times fa-5x"></i></td>
+              <td class="border border-grey-light py-2 px-4 text-center">
+                <img v-if="row.symbol_on" class="w-12" :src="row.symbol_on.url" :alt="row.symbol_on.name">
+                <img v-if="row.symbol_off" class="w-12" :src="row.symbol_off.url" :alt="row.symbol_off.name">
+                <img v-if="row.symbol_error" class="w-12" :src="row.symbol_error.url" :alt="row.symbol_error.name">
+              </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4">{{ row.description.substr(0, 100) }}...</td>
               <td class="border border-grey-light py-2 px-4">
