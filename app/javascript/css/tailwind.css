@@ -154,7 +154,7 @@ a {
   @apply border-grey-dark;
   @apply rounded;
   padding: 0px 0px;
-  min-height: 150px;
+  min-height: 100px;
   transition-duration: 0.3s;
 }
 .dropzone .drop-reciever {
@@ -170,7 +170,7 @@ a {
 
 .dropzone-message {
   position: relative;
-  top: 75px;
+  top: 50px;
 }
 
 .dropzone .is-dragging {

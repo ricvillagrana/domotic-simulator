@@ -18,7 +18,7 @@
         <div class="flex flex-row">
           <div class="flex flex-col flex-1 w-1/3 px-1">
             <label for="description" class="label">Apagado:</label>
-            <div class="flex flex-row justify-center">
+            <div class="flex flex-row justify-center mb-2">
               <img v-if="currentNetwork.symbol_off" class="image-preview" :src="currentNetwork.symbol_off.url" :alt="currentNetwork.symbol_off.name">
             </div>
             <drag-drop
@@ -26,7 +26,7 @@
           </div>
           <div class="flex flex-col flex-1 w-1/3 px-1">
             <label for="description" class="label">Encendido:</label>
-            <div class="flex flex-row justify-center">
+            <div class="flex flex-row justify-center mb-2">
               <img v-if="currentNetwork.symbol_on" class="image-preview" :src="currentNetwork.symbol_on.url" :alt="currentNetwork.symbol_on.name">
             </div>
             <drag-drop
@@ -34,7 +34,7 @@
           </div>
           <div class="flex flex-col flex-1 w-1/3 px-1">
             <label for="description" class="label">Descompuesto:</label>
-            <div class="flex flex-row justify-center">
+            <div class="flex flex-row justify-center mb-2">
               <img v-if="currentNetwork.symbol_error" class="image-preview" :src="currentNetwork.symbol_error.url" :alt="currentNetwork.symbol_error.name">
             </div>
             <drag-drop

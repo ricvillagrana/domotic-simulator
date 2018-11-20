@@ -8,6 +8,7 @@ import '../css/tailwind.css'
 
 import Layout from '../components/Layout/'
 import Pages from '../views/pages/'
+import Simulation from '../views/pages/Simulation'
 
 import Floors from '../views/floors/'
 import Networks from '../views/networks/'
@@ -32,6 +33,7 @@ document.addEventListener('turbolinks:load', () => {
     el: '#app',
     components: {
       Pages,
+      Simulation,
       Layout,
       Floors,
       Networks,

@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   resources :sensors
   resources :actuators
 
+  get '/simulation', to: 'pages#simulation'
+
   # get '*path' => redirect('/')
 end

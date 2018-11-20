@@ -1,14 +1,12 @@
 class FloorsController < ApplicationController
   def index
     @floors = Floor.all.order(id: :desc)
-    respond_to do |format|
-      format.html
-      format.json { render json: { floors: @floors, status: 200 } }
-    end
   end
 
   def create
     @floor = Floor.new(floor_params)
+    @floor.background = ActiveStorage::Blob.find params[:background][:id] if params[:background]
+
     if @floor.save
       render json: { floor: @floor, status: 200 }
     else
@@ -18,6 +16,9 @@ class FloorsController < ApplicationController
 
   def update
     @floor = Floor.find(params[:id])
+    @floor.background = ActiveStorage::Blob.find params[:background][:id] if params[:background]
+    @floor.save
+
     if @floor.update!(floor_params)
       render json: { floor: @floor, status: 200 }
     else
@@ -43,6 +44,6 @@ class FloorsController < ApplicationController
   private
 
   def floor_params
-    params.require(:floor).permit(:name)
+    params.require(:floor).permit(:name, :background)
   end
 end
