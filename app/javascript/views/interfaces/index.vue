@@ -41,7 +41,7 @@
     
     <interface-form
       :open="editOptions.open"
-      :interface="editOptions.inter"
+      :inter="editOptions.inter"
       @fetch="fetchInterfaces"
       @close="editOptions.open = false"></interface-form>
   </div>

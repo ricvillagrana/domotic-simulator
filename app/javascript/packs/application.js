@@ -13,6 +13,8 @@ import Floors from '../views/floors/'
 import Networks from '../views/networks/'
 import Interfaces from '../views/interfaces/'
 import UnitTypes from '../views/unit_types/'
+import Sensors from '../views/sensors/'
+import Actuators from '../views/actuators/'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$swal = swal
@@ -34,7 +36,9 @@ document.addEventListener('turbolinks:load', () => {
       Floors,
       Networks,
       Interfaces,
-      UnitTypes
+      UnitTypes,
+      Sensors,
+      Actuators
     }
   })
 })

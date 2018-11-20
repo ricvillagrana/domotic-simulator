@@ -1,7 +1,7 @@
 <template>
   <app-modal :open="open" @close="$emit('close')">
     <div slot="header">
-      {{ interface ? currentInterface.name : 'Nueva Interfaz de Red' }}
+      {{ inter ? currentInterface.name : 'Nueva Interfaz de Red' }}
     </div>
     <div slot="content">
       <div class="flex flex-col">
@@ -35,7 +35,7 @@ import AppModal from '../../components/AppModal'
 
 export default {
   name: 'interface-form',
-  props: ['open', 'interface'],
+  props: ['open', 'inter'],
   components: {
     AppModal
   },
@@ -59,8 +59,8 @@ export default {
     handleSave: function () {
       this.saving = true
       const that = this
-      if (this.interface) {
-        this.$axios.put(`/interfaces/${this.interface.id}`, {
+      if (this.inter) {
+        this.$axios.put(`/interfaces/${this.inter.id}`, {
           ...that.currentInterface
         })
           .then(({data}) => {
@@ -127,13 +127,13 @@ export default {
     }
   },
   watch: {
-    interface: function () {
+    inter: function () {
       this.fetchNetworks()
-      if (this.interface) {
+      if (this.inter) {
         this.currentInterface = {
-          name: this.interface.name,
-          description: this.interface.description,
-          network_id: this.interface.network_id
+          name: this.inter.name,
+          description: this.inter.description,
+          network_id: this.inter.network_id
         }
       } else {
         this.currentInterface = {

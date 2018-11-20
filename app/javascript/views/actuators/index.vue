@@ -1,27 +1,26 @@
 <template>
   <div>
     <p class="title text-3xl mb-2">
-      Unidades de medición
+      Actuatores
       <button @click="addOptions.open = true" class="button primary text-sm">
         Agregar
       </button>
     </p>
     <div class="flex flex-row">
       <div class="flex flex-col flex-1">
-        <div v-if="units.length === 0" class="self-center text-2xl text-grey-dark">
-          No hay Unidades de medición aún, <span @click="addOptions.open = true" class="text-blue cursor-pointer">agrega una</span>.
+        <div v-if="actuators.length === 0" class="self-center text-2xl text-grey-dark">
+          No hay Actuatores aún, <span @click="addOptions.open = true" class="text-blue cursor-poactuator">agrega una</span>.
         </div>
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Símbolo', 'Descripción', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in units" :key="`data-${key}`">
-              <td class="border border-grey-light py-2 px-4">{{ row.unit }}</td>
-              <td class="border border-grey-light py-2 px-4">{{ row.symbol }}</td>
-              <td class="border border-grey-light py-2 px-4">{{ row.description.substr(0, 100) }}...</td>
+            <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in actuators" :key="`data-${key}`">
+              <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
+              <td class="border border-grey-light py-2 px-4">{{ row.unit_type.symbol }} - {{ row.unit_type.unit }}</td>
               <td class="border border-grey-light py-2 px-4">
                 <div class="flex flex-row">
                   <button @click="openEdit(row)" class="button warning">Editar</button>
@@ -34,49 +33,50 @@
       </div>
     </div>
     
-    <unit-type-form
+    <actuator-form
       :open="addOptions.open"
-      @fetch="fetchUnitTypes"
-      @close="addOptions.open = false"></unit-type-form>
+      @fetch="fetchActuators"
+      @close="addOptions.open = false"></actuator-form>
     
-    <unit-type-form
+    <actuator-form
       :open="editOptions.open"
-      :unit="editOptions.unit"
-      @fetch="fetchUnitTypes"
-      @close="editOptions.open = false"></unit-type-form>
+      :actuator="editOptions.actuator"
+      @fetch="fetchActuators"
+      @close="editOptions.open = false"></actuator-form>
   </div>
 </template>
 
 <script>
-import UnitTypeForm from './UnitTypeForm'
+import ActuatorForm from './ActuatorForm'
 
 export default {
-  name: 'interfaces',
+  name: 'actuators',
   data: () => ({
-    units: [],
+    actuators: [],
+    selectedActuator: null,
     addOptions: {
       open: false
     },
     editOptions: {
       open: false,
-      unit: null
+      actuator: null
     }
   }),
   components: {
-    UnitTypeForm
+    ActuatorForm
   },
   beforeMount() {
-    this.fetchUnitTypes()
+    this.fetchActuators()
   },
   methods: {
-    openEdit: function (unit) {
+    openEdit: function (actuator) {
       this.editOptions.open = true
-      this.editOptions.unit = unit
+      this.editOptions.actuator = actuator
     },
-    handleDelete: function (unit) {
+    handleDelete: function (actuator) {
       const that = this
       this.$swal({
-        title: `Se eliminará la unidad de medición ${unit.name}`,
+        title: `Se eliminará la actuatorfaz ${actuator.name}`,
         text: "No se podrá recuprar",
         type: 'warning',
         showCancelButton: true,
@@ -90,7 +90,7 @@ export default {
             title: 'Eliminando...',
             onOpen: () => that.$swal.showLoading()
           })
-          this.$axios.delete(`/unit_types/${unit.id}`)
+          this.$axios.delete(`/actuators/${actuator.id}`)
             .then(({
               data
             }) => {
@@ -98,29 +98,29 @@ export default {
                 that.$swal({
                   type: 'success',
                   title: 'Elminada',
-                  text: `La unidad de medicón ${unit.name} se eliminó de manera correcta.`,
+                  text: `La actuatorfaz ${actuator.name} se eliminó de manera correcta.`,
                 })
               }
-              that.fetchUnitTypes()
+              that.fetchActuators()
             })
             .catch(err => {
               that.$swal({
                 type: 'error',
                 title: 'Error',
-                text: 'No se pudo eliminar la unidad de medición.',
+                text: 'No se pudo eliminar la actuatorfaz.',
                 footer: `Error: ${err}`
               })
             })
         }
       })
     },
-    fetchUnitTypes: function () {
+    fetchActuators: function () {
       const that = this
-      this.$axios.get('/unit_types.json')
+      this.$axios.get('/actuators.json')
         .then(({
           data
         }) => {
-          that.units = data.unit_types
+          that.actuators = data.actuators
         })
         .catch(err => {
           that.$swal({
