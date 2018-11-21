@@ -150,7 +150,10 @@
               sizes: JSON.stringify({ width, height }),
               position: JSON.stringify({ x, y })
             })
-            .then(({ data }) => console.log(data))
+            .then(({ data }) => {
+              that.activeRoom.sizes = { width, height }
+              that.activeRoom.position = { x, y }
+            })
             .catch(err => {
               that.$swal({
                 type: 'error',
@@ -167,7 +170,9 @@
             .put(`/rooms/${this.activeRoom.id}`, {
               position: JSON.stringify({ x, y })
             })
-            .then(({ data }) => console.log(data))
+            .then(({ data }) => {
+              that.activeRoom.position = { x, y }
+            })
             .catch(err => {
               that.$swal({
                 type: 'error',
