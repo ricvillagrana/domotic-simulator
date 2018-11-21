@@ -16,9 +16,11 @@ class FloorsController < ApplicationController
 
   def update
     @floor = Floor.find(params[:id])
-    @floor.background = ActiveStorage::Blob.find params[:background][:id] if params[:background]
-    @floor.save
-
+    if params[:background]
+      @floor.background.purge
+      @floor.background = ActiveStorage::Blob.find params[:background][:id]
+      @floor.save
+    end
     if @floor.update!(floor_params)
       render json: { floor: @floor, status: 200 }
     else
@@ -28,6 +30,7 @@ class FloorsController < ApplicationController
 
   def destroy
     @floor = Floor.find(params[:id])
+    @floor.background.purge
     if @floor.destroy
       render json: { status: 200 }
     else

@@ -18,9 +18,11 @@
                 <img v-if="row.background" class="h-16" :src="row.background.url" :alt="row.background.name">
               </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
-              <td class="border border-grey-light py-2 px-4 flex flex-row">
-                <button @click="handleEdit(row)" class="button warning">Editar</button>
-                <button @click="handleDelete(row)" class="button danger">Eliminar</button>
+              <td class="border border-grey-light py-2 px-4">
+                <div class="flex flex-row">
+                  <button @click="handleEdit(row)" class="button warning">Editar</button>
+                  <button @click="handleDelete(row)" class="button danger">Eliminar</button>
+                </div>
               </td>
             </tr>
           </tbody>

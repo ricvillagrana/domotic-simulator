@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row min-h-screen">
-    <div class="flex flex-col w-52 bg-black text-white px-0 py-2 fixed min-h-screen">
+    <div class="flex flex-col w-64 bg-black text-white px-0 py-2 fixed min-h-screen">
       <p class="text-3xl p-4 font-bold">IA Domótica</p>
       <div class="flex flex-col" v-for="(item, key) in menu" :key="`menu-${key}`">
         <a @click="$redirect(item.path)" class="bg-transparent hover:bg-blue-darker text-blue-lighter px-4 py-2 duration-1 cursor-pointer">

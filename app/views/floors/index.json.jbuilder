@@ -17,5 +17,17 @@ json.floors do
         json.url url_for(floor.background)
       end
     end
+    json.rooms do
+      json.array! floor.rooms do |room|
+        json.id room.id
+        json.floor_id room.floor_id
+        json.name room.name
+        json.sizes room.sizes.as_json
+        json.position room.position.as_json
+        json.color room.color.as_json
+        json.created_at room.created_at
+        json.updated_at room.updated_at
+      end
+    end
   end
 end

@@ -25,6 +25,7 @@ class NetworksController < ApplicationController
 
   def destroy
     @network = Network.find(params[:id])
+    purge_symbols(@network)
     if @network.destroy
       render json: { status: 200 }
     else
@@ -37,6 +38,12 @@ class NetworksController < ApplicationController
     network.symbol_on = ActiveStorage::Blob.find blobs[:symbol_on][:id] if blobs[:symbol_on]
     network.symbol_error = ActiveStorage::Blob.find blobs[:symbol_error][:id] if blobs[:symbol_error]
     network.save
+  end
+
+  def purge_symbols(network)
+    network.symbol_off.purge
+    network.symbol_on.purge
+    network.symbol_error.purge
   end
 
   private

@@ -1,12 +1,12 @@
 <template>
   <app-modal :open="open" @close="$emit('close')">
     <div slot="header">
-      {{ floor ? currentFloor.name : 'Nueva Red' }}
+      {{ floor ? currentFloor.name : 'Nueva piso' }}
     </div>
     <div slot="content">
       <div class="flex flex-col">
         <label for="name" class="label">Nombre del piso:</label>
-        <input type="text" name="name" class="input" :class="{ 'error' : errors.name }" placeholder="Nombre del piso. Ej. Planta brmoaja" v-model="currentFloor.name" />
+        <input type="text" name="name" class="input" :class="{ 'error' : errors.name }" placeholder="Nombre del piso. Ej. Planta baja" v-model="currentFloor.name" />
         <span class="input-error-message" v-show="errors.name">{{ errors.name }}</span>
 
 

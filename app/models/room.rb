@@ -4,4 +4,6 @@ class Room < ApplicationRecord
   serialize :sizes
   serialize :position
   serialize :color
+
+  has_one_attached :background
 end

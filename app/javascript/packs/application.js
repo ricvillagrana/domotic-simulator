@@ -3,6 +3,9 @@ import Vue from 'vue/dist/vue.esm'
 import axios from 'axios'
 import swal from 'sweetalert2'
 import moment from 'moment'
+import VueDraggableResizable from 'vue-draggable-resizable'
+
+Vue.component('vue-draggable', VueDraggableResizable)
 
 import '../css/tailwind.css'
 
