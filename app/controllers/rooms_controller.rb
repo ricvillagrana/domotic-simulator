@@ -1,6 +1,14 @@
 class RoomsController < ApplicationController
   def index
-    @ooms = Room.all.order(id: :desc)
+    @rooms = Room.all.order(id: :desc)
+  end
+
+  def show
+    @floor = Floor.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: { rooms: @floor.rooms, status: 200 } }
+    end
   end
 
   def create

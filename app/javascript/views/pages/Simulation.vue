@@ -4,26 +4,26 @@
       <p class="text-xl p-4 font-bold">Pisos de la casa</p>
       <div class="flex flex-col">
         <a class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-                  PISOS
-                </a>
+          PISOS
+        </a>
         <div class="flex flex-col" v-for="(item, key) in floors" :key="`floors-${key}`">
-          <a @click="selected = item"
+          <a @click="selectFloor(item)"
              :class="{ 'font-bold text-white' : selected === item }"
              class="pl-6 bg-transparent hover:bg-blue-darker text-blue-lighter px-4 py-2 duration-1 cursor-pointer">
-                    {{ selected === item ? '➜ ' : '' }}{{ item.name }}
-                  </a>
+            {{ selected === item ? '➜ ' : '' }}{{ item.name }}
+          </a>
         </div>
         <a class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-                  ACCIONES
-                </a>
+          ACCIONES
+        </a>
         <div class="flex flex-col">
           <a @click="addOptions.open = true" class="pl-6 bg-transparent hover:bg-blue-darker text-blue-lighter px-4 py-2 duration-1 cursor-pointer">
-                    <i class="fa fa-plus"></i>Nueva habitación
-                  </a>
+            <i class="fa fa-plus"></i>Nueva habitación
+          </a>
         </div>
       </div>
     </div>
-    <div v-if="selected" class="bg-grey-lighter ml-48 flex flex-1 max-h-screen overflow-hidden">
+    <div v-if="selected && selected.background" class="bg-grey-lighter ml-48 flex flex-1 max-h-screen overflow-hidden">
       <!-- Background -->
       <img class="" id="image" :src="selected.background.url" :alt="selected.background.filename">
 
@@ -43,7 +43,7 @@
                          @resizestop="onResize"
                          @dragstop="onDrag"
                          :style="`background: ${room.color.background}; color: ${room.color.font};`"
-                         class="cursor-move flex justify-center items-center opacity-50">
+                         class="cursor-move flex justify-center items-center opacity-75">
             <p>{{ room.name }}</p>
           </vue-draggable>
         </div>
@@ -52,13 +52,13 @@
 
     <room-form :open="addOptions.open"
                :floor="selected"
-               @fetch="fetchFloors"
+               @fetch="fetchRooms"
                @close="addOptions.open = false"></room-form>
 
     <room-form :open="editOptions.open"
                :floor="selected"
                :room="editOptions.room"
-               @fetch="fetchFloors"
+               @fetch="fetchRooms"
                @close="editOptions.open = false"></room-form>
   </div>
 </template>
@@ -87,42 +87,61 @@
       this.fetchFloors()
     },
     methods: {
-      onResize (x, y, width, height) {
+      selectFloor (floor) {
+        this.selected = null
+        setTimeout(() => this.selected = floor, 50)
+      },
+      onResize(x, y, width, height) {
         const that = this
         setTimeout(() => {
-          this.$axios.put(`/rooms/${this.activeRoom.id}`, {
-            sizes: JSON.stringify({width, height}),
-            position: JSON.stringify({x, y}),
-          }).then(({data}) => console.log(data))
-          .catch(err => {
-            that.$swal({
-              type: 'error',
-              title: 'Error',
-              text: err
+          this.$axios
+            .put(`/rooms/${this.activeRoom.id}`, {
+              sizes: JSON.stringify({ width, height }),
+              position: JSON.stringify({ x, y })
             })
-          })
+            .then(({ data }) => console.log(data))
+            .catch(err => {
+              that.$swal({
+                type: 'error',
+                title: 'Error',
+                text: err
+              })
+            })
         }, 10)
       },
-      onDrag (x, y) {
+      onDrag(x, y) {
         const that = this
         setTimeout(() => {
-          this.$axios.put(`/rooms/${this.activeRoom.id}`, {
-            position: JSON.stringify({x, y}),
-          }).then(({data}) => console.log(data))
-          .catch(err => {
-            that.$swal({
-              type: 'error',
-              title: 'Error',
-              text: err
+          this.$axios
+            .put(`/rooms/${this.activeRoom.id}`, {
+              position: JSON.stringify({ x, y })
             })
-          })
+            .then(({ data }) => console.log(data))
+            .catch(err => {
+              that.$swal({
+                type: 'error',
+                title: 'Error',
+                text: err
+              })
+            })
         }, 10)
       },
       fetchFloors() {
         const that = this
         this.$axios.get('/floors.json').then(({ data }) => {
           that.floors = data.floors
-          if (that.floors.length > 0) that.selected = that.floors[0]
+          if (that.floors.length > 0 && !that.selected) that.selected = that.floors[0]
+        })
+      },
+      fetchRooms() {
+        const that = this
+        this.$axios.get(`/rooms/${this.selected.id}.json`).then(({ data }) => {
+          that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = []
+          that.selected.rooms = []
+          setTimeout(() => {
+            that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = data.rooms
+            that.selected.rooms = data.rooms
+          }, 10)
         })
       }
     }
