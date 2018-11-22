@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :floors
   resources :rooms
+  resources :devices
+  resources :device_types
   resources :networks
   resources :interfaces
   resources :unit_types

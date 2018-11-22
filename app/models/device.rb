@@ -6,6 +6,8 @@ class Device < ApplicationRecord
   has_and_belongs_to_many :actuators
   has_and_belongs_to_many :sensors
 
+  has_one_attached :image
+
   def type
     device_type
   end

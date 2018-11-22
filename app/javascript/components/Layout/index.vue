@@ -34,6 +34,14 @@ export default {
         name: 'Dispositivos',
         path: '/devices',
         submenu: [{
+            name: 'Dispositivos',
+            path: '/devices'
+          },
+          {
+            name: 'Tipos de dispositivos',
+            path: '/device_types'
+          },
+          {
             name: 'Sensores',
             path: '/sensors'
           },

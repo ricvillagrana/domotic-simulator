@@ -19,6 +19,7 @@ import Interfaces from '../views/interfaces/'
 import UnitTypes from '../views/unit_types/'
 import Sensors from '../views/sensors/'
 import Actuators from '../views/actuators/'
+import Devices from '../views/devices/'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$swal = swal
@@ -43,7 +44,8 @@ document.addEventListener('turbolinks:load', () => {
       Interfaces,
       UnitTypes,
       Sensors,
-      Actuators
+      Actuators,
+      Devices
     }
   })
 })
