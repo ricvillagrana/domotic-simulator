@@ -4,8 +4,8 @@
       <p class="text-xl p-4 font-bold">Pisos de la casa</p>
       <div class="flex flex-col">
         <a class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-          PISOS
-        </a>
+            PISOS
+          </a>
         <div class="flex flex-col" v-for="(item, key) in floors" :key="`floors-${key}`">
           <a @click="selectFloor(item)"
              :class="{ 'font-bold text-white' : selected === item }"
@@ -21,6 +21,16 @@
             <i class="fa fa-plus"></i>Nueva habitación
           </a>
         </div>
+        <hr class="border border-solid border-blue w-full" />
+        <a class="bg-transparent font-bold text-white px-4 py-2 mt-6 duration-1 cursor-pointer">
+          OPCIONES
+        </a>
+        <div class="flex flex-col">
+          <span class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
+            Opacidad
+            <input type="range" class="w-full" name="opacity" min="0" max="100" v-model="opacity" />
+          </span>
+        </div>
       </div>
     </div>
     <div v-if="selected && selected.background" class="bg-grey-lighter ml-48 flex flex-1 max-h-screen overflow-hidden">
@@ -31,8 +41,8 @@
         <div class="flex flex-col flex-1 w-full h-full">
           <vue-draggable v-for="(room, key) in selected.rooms"
                          :key="`room-${key}`"
-                         :minh="0"
-                         :minw="0"
+                         :minh="50"
+                         :minw="50"
                          :x="parseInt(room.position.x)"
                          :y="parseInt(room.position.y)"
                          :w="parseInt(room.sizes.width)"
@@ -42,13 +52,26 @@
                          @deactivated="activeRoom === room ? activeRoom = null : null"
                          @resizestop="onResize"
                          @dragstop="onDrag"
-                         :style="`background: ${room.color.background}; color: ${room.color.font};`"
-                         class="cursor-move flex justify-center items-center opacity-75">
+                         :style="`background: ${room.color.background}; color: ${room.color.font}; opacity: ${opacity/100};`"
+                         class="cursor-move flex justify-center items-center">
             <div class="flex flex-col justify-center text-center">
               <p>{{ room.name }}</p>
               <div :class="activeRoom === room ? 'opacity-100' : 'opacity-0'" class="flex flex-row flex-wrap duration-1 justify-center">
-                <button @click="onEdit(room)" :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'" class="delay-1 duration-5 button warning p-0" type="button" name="button ">Editar</button>
-                <button @click="onDelete(room)" :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'" class="delay-1 duration-5 button danger p-0" type="button" name="button ">Eliminar</button>
+                <button @click="$swal('Not yet')"
+                        :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+                        class="delay-1 duration-5 button primary p-0 px-1"
+                        type="button"
+                        name="info"><i class="fa fa-info"></i></button>
+                <button @click="onEdit(room)"
+                        :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+                        class="delay-1 duration-5 button warning p-0 px-1"
+                        type="button"
+                        name="edit"><i class="fa fa-pencil"></i></button>
+                <button @click="onDelete(room)"
+                        :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+                        class="delay-1 duration-5 button danger p-0 px-1"
+                        type="button"
+                        name="delete"><i class="fa fa-times"></i></button>
               </div>
             </div>
           </vue-draggable>
@@ -78,6 +101,7 @@
       floors: [],
       selected: null,
       activeRoom: null,
+      opacity: 75,
       addOptions: {
         open: false
       },
@@ -93,40 +117,39 @@
       this.fetchFloors()
     },
     methods: {
-      selectFloor (floor) {
+      selectFloor(floor) {
         this.selected = null
-        setTimeout(() => this.selected = floor, 50)
+        setTimeout(() => (this.selected = floor), 50)
       },
-      onEdit (room) {
+      onEdit(room) {
         this.editOptions.room = room
         this.editOptions.open = true
       },
-      onDelete (room) {
+      onDelete(room) {
         const that = this
         this.$swal({
           title: `Se eliminará la habitación ${room.name}`,
-          text: "No se podrá recuprar",
+          text: 'No se podrá recuprar',
           type: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Eliminar',
           cancelButtonText: 'No, cancelar',
           cancelButtonColor: 'red',
           reverseButtons: true
-        }).then((result) => {
+        }).then(result => {
           if (result.value) {
             this.$swal({
               title: 'Eliminando...',
               onOpen: () => that.$swal.showLoading()
             })
-            this.$axios.delete(`/rooms/${room.id}`)
-              .then(({
-                data
-              }) => {
+            this.$axios
+              .delete(`/rooms/${room.id}`)
+              .then(({ data }) => {
                 if (data.status == 200) {
                   that.$swal({
                     type: 'success',
                     title: 'Elminada',
-                    text: `La habitación ${room.name} se eliminó de manera correcta.`,
+                    text: `La habitación ${room.name} se eliminó de manera correcta.`
                   })
                 }
                 that.fetchRooms()
@@ -142,7 +165,7 @@
           }
         })
       },
-      onResize (x, y, width, height) {
+      onResize(x, y, width, height) {
         const that = this
         setTimeout(() => {
           this.$axios
@@ -163,7 +186,7 @@
             })
         }, 10)
       },
-      onDrag (x, y) {
+      onDrag(x, y) {
         const that = this
         setTimeout(() => {
           this.$axios
@@ -202,7 +225,7 @@
       }
     },
     watch: {
-      selected () {
+      selected() {
         this.fetchRooms()
       }
     }

@@ -19,6 +19,11 @@ a {
   text-decoration: none;
 }
 
+table {
+  @apply shadow-lg;
+  @apply rounded-lg;
+}
+
 .title {
   @apply font-bold;
   @apply text-blue-darker;
@@ -76,8 +81,11 @@ a {
   @apply rounded;
   @apply bg-grey-dark;
   @apply text-white;
+  @apply font-bold;
+  /* @apply uppercase;
+  @apply text-xs; */
   transition-duration: 0.1s;
-} 
+}
 .button.disabled {
   cursor: not-allowed;
   opacity: 0.5;
