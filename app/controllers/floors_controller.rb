@@ -31,6 +31,7 @@ class FloorsController < ApplicationController
   def destroy
     @floor = Floor.find(params[:id])
     @floor.background.purge
+    @floor.rooms.each {|room| room.destroy}
     if @floor.destroy
       render json: { status: 200 }
     else

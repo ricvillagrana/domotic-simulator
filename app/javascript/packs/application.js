@@ -9,21 +9,23 @@ Vue.component('vue-draggable', VueDraggableResizable)
 
 import '../css/tailwind.css'
 
-import Layout from '../components/Layout/'
-import Pages from '../views/pages/'
-import Simulation from '../views/pages/Simulation'
+import Layout       from '../components/Layout/'
 
-import Floors from '../views/floors/'
-import Networks from '../views/networks/'
-import Interfaces from '../views/interfaces/'
-import UnitTypes from '../views/unit_types/'
-import Sensors from '../views/sensors/'
-import Actuators from '../views/actuators/'
-import Devices from '../views/devices/'
+import Pages        from '../views/pages/'
+import Simulation   from '../views/pages/Simulation'
 
-Vue.prototype.$axios = axios
-Vue.prototype.$swal = swal
-Vue.prototype.$moment = moment
+import Floors       from '../views/floors/'
+import Networks     from '../views/networks/'
+import UnitTypes    from '../views/unit_types/'
+import Interfaces   from '../views/interfaces/'
+import Sensors      from '../views/sensors/'
+import Actuators    from '../views/actuators/'
+import Devices      from '../views/devices/'
+import DeviceTypes  from '../views/devices/types/'
+
+Vue.prototype.$axios    = axios
+Vue.prototype.$swal     = swal
+Vue.prototype.$moment   = moment
 Vue.prototype.$base_url = window.location.origin
 Vue.prototype.$redirect = path => window.location = path
 
@@ -45,7 +47,8 @@ document.addEventListener('turbolinks:load', () => {
       UnitTypes,
       Sensors,
       Actuators,
-      Devices
+      Devices,
+      DeviceTypes
     }
   })
 })

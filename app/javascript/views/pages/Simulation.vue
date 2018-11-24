@@ -21,14 +21,19 @@
             <i class="fa fa-plus"></i>Nueva habitación
           </a>
         </div>
-        <hr class="border border-solid border-blue w-full" />
-        <a class="bg-transparent font-bold text-white px-4 py-2 mt-6 duration-1 cursor-pointer">
+        <hr class="border-t border-grey-darkest w-full" />
+        <a class="bg-transparent font-bold text-white px-4 py-2 mt- duration-1 cursor-pointer">
           OPCIONES
         </a>
         <div class="flex flex-col">
           <span class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
             Opacidad
             <input type="range" class="w-full" name="opacity" min="0" max="100" v-model="opacity" />
+          </span>
+        </div>
+        <div class="flex flex-col">
+          <span class="bg-transparent text-white px-4 py-2 duration-1 cursor-pointer">
+            22:44 Hrs
           </span>
         </div>
       </div>
