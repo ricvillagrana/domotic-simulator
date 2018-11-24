@@ -6,9 +6,25 @@ json.device do
   json.device_type_id @device.device_type_id
   json.created_at @device.created_at
   json.updated_at @device.updated_at
-  json.sensors @device.sensors
-  json.actuators @device.actuators
-  json.interfaces @device.interfaces
+
+  json.sensors do
+    json.array! @device.sensors do |sensor|
+      json.partial! 'sensor', sensor: sensor
+    end
+  end
+
+  json.actuators do
+    json.array! @device.actuators do |actuator|
+      json.partial! 'actuator', actuator: actuator
+    end
+  end
+
+  json.interfaces do
+    json.array! @device.interfaces do |interface|
+      json.partial! 'interface', interface: interface
+    end
+  end
+
   if @device.image.attached?
     json.image do
       json.id @device.image.id

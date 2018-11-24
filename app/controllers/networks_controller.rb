@@ -5,7 +5,7 @@ class NetworksController < ApplicationController
 
   def create
     @network = Network.new(network_params)
-    @network.symbol = ActiveStorage::Blob.find params[:blob][:id] unless params[:blob].nil?
+    set_symbols(@network, params[:blobs])
     if @network.save
       render json: { network: @network, status: 200 }
     else

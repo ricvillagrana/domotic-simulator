@@ -14,11 +14,16 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in sensors" :key="`data-${key}`">
+              <td class="border border-grey-light py-2 px-4 text-center">
+                <img v-if="row.symbol_on" class="w-12" :src="row.symbol_on.url" :alt="row.symbol_on.name">
+                <img v-if="row.symbol_off" class="w-12" :src="row.symbol_off.url" :alt="row.symbol_off.name">
+                <img v-if="row.symbol_error" class="w-12" :src="row.symbol_error.url" :alt="row.symbol_error.name">
+              </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4">{{ row.unit_type.symbol }} - {{ row.unit_type.unit }}</td>
               <td class="border border-grey-light py-2 px-4">
@@ -32,12 +37,12 @@
         </table>
       </div>
     </div>
-    
+
     <sensor-form
       :open="addOptions.open"
       @fetch="fetchSensors"
       @close="addOptions.open = false"></sensor-form>
-    
+
     <sensor-form
       :open="editOptions.open"
       :sensor="editOptions.sensor"

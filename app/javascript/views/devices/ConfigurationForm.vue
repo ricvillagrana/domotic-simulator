@@ -13,7 +13,7 @@
               <div @click="onRemove(sensor, 'sensor')" class="flex justify-center items-center text-center px-2 py-1" v-for="(sensor, index) in currentDevice.sensors" :key="`sensor-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-blue-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ sensor.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="sensor.symbol_off" :src="sensor.symbol_off.url" :alt="sensor.symbol_off.name">
                 </div>
               </div>
               <span v-if="!currentDevice.sensors || currentDevice.sensors.length === 0" class="text-grey-darkest font-bold">No hay Sensores</span>
@@ -24,7 +24,7 @@
               <div @click="onRemove(actuator, 'actuator')" class="flex justify-center items-center text-center px-2 py-1" v-for="(actuator, index) in currentDevice.actuators" :key="`actuator-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-green-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ actuator.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="actuator.symbol_off" :src="actuator.symbol_off.url" :alt="actuator.symbol_off.name">
                 </div>
               </div>
               <span v-if="!currentDevice.actuators || currentDevice.actuators.length === 0" class="text-grey-darkest font-bold">No hay Actuadores</span>
@@ -35,7 +35,7 @@
               <div @click="onRemove(inter, 'interface')" class="flex justify-center items-center text-center px-2 py-1" v-for="(inter, index) in currentDevice.interfaces" :key="`interface-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-purple-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ inter.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="inter.symbol_off" :src="inter.symbol_off.url" :alt="inter.symbol_off.name">
                 </div>
               </div>
               <span v-if="!currentDevice.interfaces || currentDevice.interfaces.length === 0" class="text-grey-darkest font-bold">No hay Interfaces de Red</span>
@@ -43,14 +43,14 @@
           </div>
         </div>
         <div class="flex flex-col w-1/2">
-          <p class="title text-xl">En servidor</p>
+          <p class="title text-xl">Disponibles</p>
           <div class="flex flex-col w-full h-96 overflow-scroll">
             <p class="flex title text-blue my-2">Sensores</p>
             <div class="flex flex-row flex-wrap border border-grey rounded p-2">
               <div @click="onAppend(sensor, 'sensor')" class="flex justify-center items-center text-center px-2 py-1" v-for="(sensor, index) in server.sensors" :key="`sensor-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-blue-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ sensor.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="sensor.symbol_off" :src="sensor.symbol_off.url" :alt="sensor.symbol_off.name">
                 </div>
               </div>
               <span v-if="server.sensors.length === 0" class="text-grey-darkest font-bold">No hay Sensores</span>
@@ -61,7 +61,7 @@
               <div @click="onAppend(actuator, 'actuator')" class="flex justify-center items-center text-center px-2 py-1" v-for="(actuator, index) in server.actuators" :key="`actuator-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-green-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ actuator.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="actuator.symbol_off" :src="actuator.symbol_off.url" :alt="actuator.symbol_off.name">
                 </div>
               </div>
               <span v-if="server.actuators.length === 0" class="text-grey-darkest font-bold">No hay Actuadores</span>
@@ -72,7 +72,7 @@
               <div @click="onAppend(inter, 'interface')" class="flex justify-center items-center text-center px-2 py-1" v-for="(inter, index) in server.interfaces" :key="`interface-${index}`">
                 <div class="border border-grey rounded p-4 hover:shadow-md hover:bg-purple-dark hover:text-white cursor-pointer duration-1">
                   <p class="font-bold">{{ inter.name }}</p>
-                  <!-- <img src="" alt=""> -->
+                  <img class="w-6" v-if="inter.symbol_off" :src="inter.symbol_off.url" :alt="inter.symbol_off.name">
                 </div>
               </div>
               <span v-if="server.interfaces.length === 0" class="text-grey-darkest font-bold">No hay Interfaces de Red</span>
@@ -94,7 +94,7 @@
   const device = {
     actuators: [],
     sensors: [],
-    intefaces: []
+    interfaces: []
   }
 
   export default {
@@ -214,7 +214,7 @@
               text: 'No se pudieron obtener las interfaces de red.'
             })
           )
-      }
+      },
     },
     computed: {
       deviceIds() {
