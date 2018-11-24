@@ -19,6 +19,11 @@
 <script>
   export default {
     name: 'app-modal',
-    props: ['open', 'size']
+    props: ['open', 'size'],
+    beforeMount() {
+      document.addEventListener("keydown", e => {
+        if (e.keyCode == 27) this.$emit('close')
+      }, false)
+    }
   }
 </script>

@@ -4,11 +4,7 @@ class DevicesController < ApplicationController
   end
 
   def show
-    @floor = Floor.find(params[:id])
-    respond_to do |format|
-      format.html
-      format.json { render json: { devices: @floor.devices, status: 200 } }
-    end
+    @device = current_device
   end
 
   def create
@@ -22,27 +18,56 @@ class DevicesController < ApplicationController
   end
 
   def update
-    @device = Device.find(params[:id])
     if params[:image]
-      @device.image.purge
-      @device.image = ActiveStorage::Blob.find params[:image][:id]
-      @device.save
+      current_device.image.purge
+      current_device.image = ActiveStorage::Blob.find params[:image][:id]
+      current_device.save
     end
-    if @device.update!(device_params)
-      render json: { Device: @device, status: 200 }
+    if current_device.update!(device_params)
+      render json: { Device: current_device, status: 200 }
     else
-      render json: { errors: @device.errors, status: 500 }
+      render json: { errors: current_device.errors, status: 500 }
     end
   end
 
   def destroy
-    @device = Device.find(params[:id])
-    @device.image.purge
-    if @device.destroy
+    current_device.image.purge
+    if current_device.destroy
       render json: { status: 200 }
     else
-      render json: { errors: @Device.errors, status: 500 }
+      render json: { errors: current_device.errors, status: 500 }
     end
+  end
+
+  def append_sensor
+    current_device.sensors.append(Sensor.find(params[:sensor_id]))
+    current_device.save
+  end
+
+  def remove_sensor
+    current_device.sensors.delete(params[:sensor_id])
+  end
+
+  def append_actuator
+    current_device.actuators.append(Actuator.find(params[:actuator_id]))
+    current_device.save
+  end
+
+  def remove_actuator
+    current_device.actuators.delete(params[:actuator_id])
+  end
+
+  def append_interface
+    current_device.interfaces.append(Interface.find(params[:interface_id]))
+    current_device.save
+  end
+
+  def remove_interface
+    current_device.interfaces.delete(params[:interface_id])
+  end
+
+  def current_device
+    Device.find(params[:id])
   end
 
   private

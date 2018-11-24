@@ -7,6 +7,9 @@ json.devices do
     json.device_type_id device.device_type_id
     json.created_at device.created_at
     json.updated_at device.updated_at
+    json.sensors device.sensors
+    json.actuators device.actuators
+    json.interfaces device.interfaces
     if device.image.attached?
       json.image do
         json.id device.image.id

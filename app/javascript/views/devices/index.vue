@@ -9,7 +9,7 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th v-for="(header, key) in ['Imagen de fondo', 'Nombre', 'Descripción', 'Tipo', 'Acciones']"
+              <th v-for="(header, key) in ['Símbolo', 'Nombre', 'Descripción', 'Tipo', 'Acciones']"
                   class="border-b-2 border border-grey-light py-2 px-8"
                   :key="`header-${key}`">{{ header }}</th>
             </tr>
@@ -20,11 +20,11 @@
                 <img v-if="row.image" class="h-16" :src="row.image.url" :alt="row.image.name">
               </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
-              <td class="border border-grey-light py-2 px-4">{{ row.description }}</td>
+              <td class="border border-grey-light py-2 px-4">{{ row.description.substr(0, 70) }}...</td>
               <td class="border border-grey-light py-2 px-4">{{ row.device_type.name }}</td>
               <td class="border border-grey-light py-2 px-4">
                 <div class="flex flex-row">
-                  <button @click="selected = row" class="button primary">Detalles</button>
+                  <button @click="handleConfigure(row)" class="button primary">Configurar</button>
                   <button @click="handleEdit(row)" class="button warning">Editar</button>
                   <button @click="handleDelete(row)" class="button danger">Eliminar</button>
                 </div>
@@ -43,21 +43,30 @@
                  :device="editOptions.device"
                  @fetch="fetchDevices"
                  @close="editOptions.open = false"></device-form>
+
+    <configuration-form :open="configurationOptions.open"
+                        :device="configurationOptions.device"
+                        @fetch="fetchDevices"
+                        @close="configurationOptions.open = false"></configuration-form>
   </div>
 </template>
 
 <script>
   import DeviceForm from './DeviceForm'
+  import ConfigurationForm from './ConfigurationForm'
 
   export default {
     name: 'devices',
     data: () => ({
       devices: [],
-      selected: null,
       addOptions: {
         open: false
       },
       editOptions: {
+        open: false,
+        device: null
+      },
+      configurationOptions: {
         open: false,
         device: null
       }
@@ -65,8 +74,12 @@
     mounted() {
       this.fetchDevices()
     },
-    components: { DeviceForm },
+    components: { DeviceForm, ConfigurationForm },
     methods: {
+      handleConfigure(device) {
+        this.configurationOptions.device = device
+        this.configurationOptions.open = true
+      },
       handleEdit(device) {
         this.editOptions.device = device
         this.editOptions.open = true
