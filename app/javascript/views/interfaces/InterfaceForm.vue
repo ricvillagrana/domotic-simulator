@@ -24,16 +24,41 @@
 
         <label for="description" class="label">Red:</label>
         <select name="network_id" class="input bg-white" :class="{ 'error' : errors.network_id }" v-model="currentInterface.network_id">
-            <option value="0" disabled selected> - Selecciona una red - </option>
-            <option v-for="(network, key) in networks" :key="`network-${key}`" :value="network.id">{{ network.name }}</option>
-          </select>
+                <option value="0" disabled selected> - Selecciona una red - </option>
+                <option v-for="(network, key) in networks" :key="`network-${key}`" :value="network.id">{{ network.name }}</option>
+              </select>
         <span class="input-error-message" v-show="errors.network_id">{{ errors.network_id }}</span>
+
+        <label for="symbols" class="label">Símbolos:</label>
+        <div class="flex flex-row">
+          <div class="flex flex-col flex-1 w-1/3 px-1">
+            <label for="description" class="label">Apagado:</label>
+            <div class="flex flex-row justify-center mb-2">
+              <img v-if="currentInterface.symbol_off" class="image-preview" :src="currentInterface.symbol_off.url" :alt="currentInterface.symbol_off.name">
+            </div>
+            <drag-drop @images="currentInterface.symbol_off = $event[0]"></drag-drop>
+          </div>
+          <div class="flex flex-col flex-1 w-1/3 px-1">
+            <label for="description" class="label">Encendido:</label>
+            <div class="flex flex-row justify-center mb-2">
+              <img v-if="currentInterface.symbol_on" class="image-preview" :src="currentInterface.symbol_on.url" :alt="currentInterface.symbol_on.name">
+            </div>
+            <drag-drop @images="currentInterface.symbol_on = $event[0]"></drag-drop>
+          </div>
+          <div class="flex flex-col flex-1 w-1/3 px-1">
+            <label for="description" class="label">Descompuesto:</label>
+            <div class="flex flex-row justify-center mb-2">
+              <img v-if="currentInterface.symbol_error" class="image-preview" :src="currentInterface.symbol_error.url" :alt="currentInterface.symbol_error.name">
+            </div>
+            <drag-drop @images="currentInterface.symbol_error = $event[0]"></drag-drop>
+          </div>
+        </div>
 
       </div>
     </div>
     <div slot="footer" class="float-right">
       <button class="button danger" @click="$emit('close')">Cancelar</button>
-      <button @click="handleSave"
+      <button @click="makeBlobs"
               class="button success"
               :class="{ 'disabled' : invalid }"
               :disabled="invalid || saving"><i v-show="saving" class="fa fa-spinner spin"></i>Guardar</button>
@@ -43,19 +68,30 @@
 
 <script>
   import AppModal from '../../components/AppModal'
+  import DragDrop from '../../components/DragDrop'
+
+  const symbols = {
+    symbol_off: null,
+    symbol_on: null,
+    symbol_error: null
+  }
 
   export default {
     name: 'interface-form',
     props: ['open', 'inter'],
     components: {
-      AppModal
+      AppModal,
+      DragDrop
     },
     data: () => ({
       currentInterface: {
         name: '',
         description: '',
-        network_id: 0
+        network_id: 0,
+        ...symbols
       },
+      ready: { ...symbols },
+      blobs: { ...symbols },
       errors: {
         name: null,
         description: null
@@ -67,19 +103,78 @@
       this.fetchNetworks()
     },
     methods: {
-      handleSave: function() {
+      makeBlobs() {
         this.saving = true
+        const that = this
+        if (that.currentInterface.symbol_off || that.currentInterface.symbol_on || that.currentInterface.symbol_error)
+          this.$swal({
+            title: 'Subiendo imagen(es)...',
+            text: 'Espera, por favor...',
+            onOpen: () => that.$swal.showLoading()
+          })
+        if (that.currentInterface.symbol_off && that.currentInterface.symbol_off.raw) {
+          const upload = new ActiveStorage.DirectUpload(
+            that.currentInterface.symbol_off.raw,
+            '/rails/active_storage/direct_uploads'
+          )
+          upload.create((error, blob) => {
+            if (error) console.log(error)
+            else {
+              that.blobs.symbol_off = blob
+              that.ready.symbol_off = true
+              if (Object.keys(that.ready).every(key => that.ready[key])) that.handleSave()
+            }
+          })
+        } else that.ready.symbol_off = true
+        if (that.currentInterface.symbol_on && that.currentInterface.symbol_on.raw) {
+          const upload = new ActiveStorage.DirectUpload(
+            that.currentInterface.symbol_on.raw,
+            '/rails/active_storage/direct_uploads'
+          )
+          upload.create((error, blob) => {
+            if (error) console.log(error)
+            else {
+              that.blobs.symbol_on = blob
+              that.ready.symbol_on = true
+              if (Object.keys(that.ready).every(key => that.ready[key])) that.handleSave()
+            }
+          })
+        } else that.ready.symbol_on = true
+        if (that.currentInterface.symbol_error && that.currentInterface.symbol_error.raw) {
+          const upload = new ActiveStorage.DirectUpload(
+            that.currentInterface.symbol_error.raw,
+            '/rails/active_storage/direct_uploads'
+          )
+          upload.create((error, blob) => {
+            if (error) console.log(error)
+            else {
+              that.blobs.symbol_error = blob
+              that.ready.symbol_error = true
+              if (Object.keys(that.ready).every(key => that.ready[key])) that.handleSave()
+            }
+          })
+        } else that.ready.symbol_error = true
+        if (Object.keys(that.ready).every(key => that.ready[key])) that.handleSave()
+      },
+      handleSave() {
         const that = this
         if (this.inter) {
           this.$axios
             .put(`/interfaces/${this.inter.id}`, {
-              ...that.currentInterface
+              name: that.currentInterface.name,
+              description: that.currentInterface.description,
+              blobs: that.blobs
             })
             .then(({ data }) => {
               that.saving = false
               that.$swal.close()
               that.$emit('close')
               that.$emit('fetch')
+              that.ready = {
+                symbol_off: false,
+                symbol_on: false,
+                symbol_error: false
+              }
             })
             .catch(err => {
               console.log(err)
@@ -87,13 +182,20 @@
         } else {
           that.$axios
             .post('/interfaces', {
-              ...that.currentInterface
+              name: that.currentInterface.name,
+              description: that.currentInterface.description,
+              blobs: that.blobs
             })
             .then(result => {
               that.currentInterface = {
                 name: '',
                 description: '',
-                network_id: 0
+                ...symbols
+              }
+              that.ready = {
+                symbol_off: false,
+                symbol_on: false,
+                symbol_error: false
               }
               that.saving = false
               that.$swal.close()
@@ -148,6 +250,7 @@
         this.fetchNetworks()
         if (this.inter) {
           this.currentInterface = {
+            ...symbols,
             name: this.inter.name,
             description: this.inter.description,
             network_id: this.inter.network_id
@@ -156,9 +259,12 @@
           this.currentInterface = {
             name: '',
             description: '',
-            network_id: 0
+            network_id: 0,
+            ...symbols
           }
         }
+        this.ready = { ...symbols }
+        this.blobs = { ...symbols }
       }
     }
   }

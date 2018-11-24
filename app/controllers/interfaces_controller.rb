@@ -1,10 +1,6 @@
 class InterfacesController < ApplicationController
   def index
     @interfaces = Interface.all.order(id: :desc)
-    respond_to do |format|
-      format.html
-      format.json { render json: { interfaces: @interfaces, status: 200 }, include: ['network'] }
-    end
   end
 
   def create

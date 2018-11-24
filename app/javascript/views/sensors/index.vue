@@ -81,7 +81,7 @@ export default {
     handleDelete: function (sensor) {
       const that = this
       this.$swal({
-        title: `Se eliminará la sensorfaz ${sensor.name}`,
+        title: `Se eliminará la sensor ${sensor.name}`,
         text: "No se podrá recuprar",
         type: 'warning',
         showCancelButton: true,
@@ -103,7 +103,7 @@ export default {
                 that.$swal({
                   type: 'success',
                   title: 'Elminada',
-                  text: `La sensorfaz ${sensor.name} se eliminó de manera correcta.`,
+                  text: `La sensor ${sensor.name} se eliminó de manera correcta.`,
                 })
               }
               that.fetchSensors()
@@ -112,7 +112,7 @@ export default {
               that.$swal({
                 type: 'error',
                 title: 'Error',
-                text: 'No se pudo eliminar la sensorfaz.',
+                text: 'No se pudo eliminar la sensor.',
                 footer: `Error: ${err}`
               })
             })

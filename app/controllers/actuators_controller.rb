@@ -1,10 +1,6 @@
 class ActuatorsController < ApplicationController
   def index
     @actuators = Actuator.all.order(id: :desc)
-    respond_to do |format|
-      format.html
-      format.json { render json: { actuators: @actuators, status: 200 }, include: ['unit_type'] }
-    end
   end
 
   def create

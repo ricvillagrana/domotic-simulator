@@ -45,8 +45,10 @@
             <drag-drop @images="currentSensor.symbol_error = $event[0]"></drag-drop>
           </div>
         </div>
+
       </div>
     </div>
+
     <div slot="footer" class="float-right">
       <button class="button danger" @click="$emit('close')">Cancelar</button>
       <button @click="makeBlobs"
@@ -246,6 +248,8 @@
             ...symbols
           }
         }
+        this.ready = { ...symbols }
+        this.blobs = { ...symbols }
       }
     }
   }

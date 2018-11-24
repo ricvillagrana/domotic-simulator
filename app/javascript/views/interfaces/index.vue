@@ -14,11 +14,16 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Descripción', 'Tipo de Red', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Descripción', 'Tipo de Red', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in interfaces" :key="`data-${key}`">
+              <td class="border border-grey-light py-2 px-4 text-center">
+                <img v-if="row.symbol_on" class="w-12" :src="row.symbol_on.url" :alt="row.symbol_on.name">
+                <img v-if="row.symbol_off" class="w-12" :src="row.symbol_off.url" :alt="row.symbol_off.name">
+                <img v-if="row.symbol_error" class="w-12" :src="row.symbol_error.url" :alt="row.symbol_error.name">
+              </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4">{{ row.description.substr(0, 100) }}...</td>
               <td class="border border-grey-light py-2 px-4">{{ row.network.name }}</td>
@@ -33,12 +38,12 @@
         </table>
       </div>
     </div>
-    
+
     <interface-form
       :open="addOptions.open"
       @fetch="fetchInterfaces"
       @close="addOptions.open = false"></interface-form>
-    
+
     <interface-form
       :open="editOptions.open"
       :inter="editOptions.inter"

@@ -14,11 +14,16 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in actuators" :key="`data-${key}`">
+              <td class="border border-grey-light py-2 px-4 text-center">
+                <img v-if="row.symbol_on" class="w-12" :src="row.symbol_on.url" :alt="row.symbol_on.name">
+                <img v-if="row.symbol_off" class="w-12" :src="row.symbol_off.url" :alt="row.symbol_off.name">
+                <img v-if="row.symbol_error" class="w-12" :src="row.symbol_error.url" :alt="row.symbol_error.name">
+              </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4">{{ row.unit_type.symbol }} - {{ row.unit_type.unit }}</td>
               <td class="border border-grey-light py-2 px-4">
@@ -32,12 +37,12 @@
         </table>
       </div>
     </div>
-    
+
     <actuator-form
       :open="addOptions.open"
       @fetch="fetchActuators"
       @close="addOptions.open = false"></actuator-form>
-    
+
     <actuator-form
       :open="editOptions.open"
       :actuator="editOptions.actuator"
@@ -76,7 +81,7 @@ export default {
     handleDelete: function (actuator) {
       const that = this
       this.$swal({
-        title: `Se eliminará la actuatorfaz ${actuator.name}`,
+        title: `Se eliminará el actuador ${actuator.name}`,
         text: "No se podrá recuprar",
         type: 'warning',
         showCancelButton: true,
@@ -98,7 +103,7 @@ export default {
                 that.$swal({
                   type: 'success',
                   title: 'Elminada',
-                  text: `La actuatorfaz ${actuator.name} se eliminó de manera correcta.`,
+                  text: `La actuador ${actuator.name} se eliminó de manera correcta.`,
                 })
               }
               that.fetchActuators()
@@ -107,7 +112,7 @@ export default {
               that.$swal({
                 type: 'error',
                 title: 'Error',
-                text: 'No se pudo eliminar la actuatorfaz.',
+                text: 'No se pudo eliminar el actuador.',
                 footer: `Error: ${err}`
               })
             })
