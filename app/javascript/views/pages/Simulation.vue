@@ -32,8 +32,17 @@
           </span>
         </div>
         <div class="flex flex-col">
-          <span class="bg-transparent text-white px-4 py-2 duration-1 cursor-pointer">
-            22:44 Hrs
+          <span class="bg-transparent text-white px-4 py-2 duration-1">
+            <clock :seconds="seconds" @clock="clock = $event"></clock>
+          </span>
+          <span class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer flex flex-wrap flex-row">
+            Velocidades
+            <button class="button w-full py-1 mb-1" :class="(seconds === 1) ? 'primary' : 'white'" @click="seconds = 1">Normal</button>
+            <button class="button w-full py-1 mb-1" :class="(seconds === 60) ? 'primary' : 'white'" @click="seconds = 60"> 1 min. p/seg.</button>
+            <button class="button w-full py-1 mb-1" :class="(seconds === 60 * 5) ? 'primary' : 'white'" @click="seconds = 60 * 5"> 5 min. p/seg.</button>
+            <button class="button w-full py-1 mb-1" :class="(seconds === 60 * 30) ? 'primary' : 'white'" @click="seconds = 60 * 30"> 30 min. p/seg.</button>
+            <button class="button w-full py-1 mb-1" :class="(seconds === 3600) ? 'primary' : 'white'" @click="seconds = 3600"> 1 hora p/seg.</button>
+            <button class="button w-full py-1 mb-1" :class="(seconds === 3600 * 2) ? 'primary' : 'white'" @click="seconds = 3600 * 2"> 2 horas p/seg.</button>
           </span>
         </div>
       </div>
@@ -98,7 +107,8 @@
 </template>
 
 <script>
-  import RoomForm from './RoomForm'
+import RoomForm from './RoomForm'
+import Clock from './Clock'
 
   export default {
     name: 'simulation',
@@ -113,10 +123,12 @@
       editOptions: {
         open: false,
         room: null
-      }
+      },
+      seconds: 1,
+      clock: null
     }),
     components: {
-      RoomForm
+      RoomForm, Clock
     },
     beforeMount() {
       this.fetchFloors()
@@ -219,7 +231,7 @@
       },
       fetchRooms() {
         const that = this
-        this.$axios.get(`/rooms/${this.selected.id}.json`).then(({ data }) => {
+        if(this.selected) this.$axios.get(`/rooms/${this.selected.id}.json`).then(({ data }) => {
           that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = []
           that.selected.rooms = []
           setTimeout(() => {

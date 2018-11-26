@@ -9,6 +9,9 @@ Vue.component('vue-draggable', VueDraggableResizable)
 
 import '../css/tailwind.css'
 
+// class
+import Clock from './class/clock.js'
+
 import Layout       from '../components/Layout/'
 
 import Pages        from '../views/pages/'
@@ -28,6 +31,8 @@ Vue.prototype.$swal     = swal
 Vue.prototype.$moment   = moment
 Vue.prototype.$base_url = window.location.origin
 Vue.prototype.$redirect = path => window.location = path
+
+Vue.prototype.$clock = Clock
 
 let token = document.head.querySelector('meta[name="csrf-token"]')
 Vue.prototype.$axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content

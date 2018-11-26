@@ -102,6 +102,14 @@ table {
   @apply bg-blue-dark;
 }
 
+.button.white {
+  @apply bg-white;
+  @apply text-blue;
+}
+.button.white:hover {
+  @apply bg-blue-lightest;
+}
+
 .button.success {
   @apply bg-green;
   @apply text-white;
@@ -153,6 +161,19 @@ table {
 @keyframes spinner {
   from {transform: rotate(0deg);}
   to {transform: rotate(360deg);}
+}
+
+.pulsar {
+  -webkit-animation: pulsar 1.2s infinite; /* Safari 4+ */
+  -moz-animation:    pulsar 1.2s infinite; /* Fx 5+ */
+  -o-animation:      pulsar 1.2s infinite; /* Opera 12+ */
+  animation:         pulsar 1.2s infinite; /* IE 10+, Fx 29+ */
+}
+
+@keyframes pulsar {
+  from {color: normal;}
+  50% {color: transparent;}
+  to {color: normal;}
 }
 
 
