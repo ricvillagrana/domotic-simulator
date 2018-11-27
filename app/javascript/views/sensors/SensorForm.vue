@@ -153,8 +153,7 @@
         if (this.sensor) {
           this.$axios
             .put(`/sensors/${this.sensor.id}`, {
-              name: that.currentSensor.name,
-              description: that.currentSensor.description,
+              ...that.currentSensor,
               blobs: that.blobs
             })
             .then(({ data }) => {
@@ -174,8 +173,7 @@
         } else {
           that.$axios
             .post('/sensors', {
-              name: that.currentSensor.name,
-              description: that.currentSensor.description,
+              ...that.currentSensor,
               blobs: that.blobs
             })
             .then(result => {

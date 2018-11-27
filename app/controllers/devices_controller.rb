@@ -40,8 +40,10 @@ class DevicesController < ApplicationController
   end
 
   def append_sensor
-    current_device.sensors.append(Sensor.find(params[:sensor_id]))
-    current_device.save
+    unless current_device.interfaces.include?(Sensor.find(params[:sensor_id]))
+      current_device.sensors.append(Sensor.find(params[:sensor_id]))
+      current_device.save
+    end
   end
 
   def remove_sensor
@@ -49,8 +51,10 @@ class DevicesController < ApplicationController
   end
 
   def append_actuator
-    current_device.actuators.append(Actuator.find(params[:actuator_id]))
-    current_device.save
+    unless current_device.interfaces.include?(Actuator.find(params[:actuator_id]))
+      current_device.actuators.append(Actuator.find(params[:actuator_id]))
+      current_device.save
+    end
   end
 
   def remove_actuator
@@ -58,8 +62,10 @@ class DevicesController < ApplicationController
   end
 
   def append_interface
-    current_device.interfaces.append(Interface.find(params[:interface_id]))
-    current_device.save
+    unless current_device.interfaces.include?(Interface.find(params[:interface_id]))
+      current_device.interfaces.append(Interface.find(params[:interface_id]))
+      current_device.save
+    end
   end
 
   def remove_interface
