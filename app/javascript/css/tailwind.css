@@ -26,7 +26,7 @@ table {
 
 .title {
   @apply font-bold;
-  @apply text-blue-darker;
+  @apply text-blue-dark;
 }
 
 .input {

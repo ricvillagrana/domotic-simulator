@@ -13,7 +13,7 @@
       </div>
       <div class="flex w-full justify-center rounded-t-none text-sm m-0 cursor-pointer">
         <span @click="toggleFormat" class="h-full w-2/3 button primary rounded-t-none rounded-br-none m-0 text-center border-r border-blue-light">{{ this.format !== 1 ? '12 hrs' : 'AM / PM' }}</span>
-        <span @click="clock.toggleStatus()" class="h-full w-1/3 button rounded-t-none rounded-bl-none m-0 text-center" :class="!clock.isCounting() ? 'warning pulsar' : 'primary'">
+        <span @click="clock.toggleStatus()" class="h-full w-1/3 button rounded-t-none rounded-bl-none m-0 text-center" :class="!clock.isCounting() ? 'warning' : 'primary'">
           <i v-if="!clock.isCounting()" class="fa fa-play"></i>
           <i v-else class="fa fa-pause"></i>
         </span>

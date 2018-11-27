@@ -15,28 +15,37 @@ class FloorsController < ApplicationController
   end
 
   def update
-    @floor = Floor.find(params[:id])
     if params[:background]
-      @floor.background.purge
-      @floor.background = ActiveStorage::Blob.find params[:background][:id]
-      @floor.save
+      current_floor.background.purge
+      current_floor.background = ActiveStorage::Blob.find params[:background][:id]
+      current_floor.save
     end
-    if @floor.update!(floor_params)
-      render json: { floor: @floor, status: 200 }
+    if current_floor.update!(floor_params)
+      render json: { floor: current_floor, status: 200 }
     else
-      render json: { errors: @floor.errors, status: 500 }
+      render json: { errors: current_floor.errors, status: 500 }
     end
   end
 
   def destroy
-    @floor = Floor.find(params[:id])
-    @floor.background.purge
-    @floor.rooms.each {|room| room.destroy}
-    if @floor.destroy
+    current_floor.background.purge
+    current_floor.rooms.each {|room| room.destroy}
+    if current_floor.destroy
       render json: { status: 200 }
     else
-      render json: { errors: @floor.errors, status: 500 }
+      render json: { errors: current_floor.errors, status: 500 }
     end
+  end
+
+  def rooms
+    respond_to do |format|
+      format.html
+      format.json { render json: { rooms: current_floor.rooms, status: 200 } }
+    end
+  end
+
+  def current_floor
+    Floor.find(params[:id])
   end
 
   def next_position

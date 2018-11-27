@@ -31,6 +31,23 @@ export default {
         path: '/'
       },
       {
+        name: 'Simulación',
+        path: '/simulation',
+        submenu: [{
+            name: 'Pisos',
+            path: '/floors'
+          },
+          {
+            name: 'Variables de ambiente',
+            path: '/environments'
+          },
+          {
+            name: 'Unidades de medidición',
+            path: '/unit_types'
+          }
+        ]
+      },
+      {
         name: 'Dispositivos',
         path: '/devices',
         submenu: [
@@ -54,23 +71,6 @@ export default {
         submenu: [{
             name: 'Interfaces de Red',
             path: '/interfaces'
-          }
-        ]
-      },
-      {
-        name: 'Simulación',
-        path: '/simulation',
-        submenu: [{
-            name: 'Pisos',
-            path: '/floors'
-          },
-          {
-            name: 'Variables de ambiente',
-            path: '/environments'
-          },
-          {
-            name: 'Unidades de medidición',
-            path: '/unit_types'
           }
         ]
       },

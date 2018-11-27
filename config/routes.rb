@@ -12,6 +12,15 @@ Rails.application.routes.draw do
   resources :sensors
   resources :actuators
 
+  get '/floors/:id/rooms', to: 'floors#rooms'
+  get '/rooms/:id/devices', to: 'rooms#devices'
+
+  put '/rooms/:id/append_environment/:environment_id', to: 'rooms#append_environment'
+  delete '/rooms/:id/remove_environment/:environment_id', to: 'rooms#remove_environment'
+
+  put '/rooms/:id/append_device/:device_id', to: 'rooms#append_device'
+  delete '/rooms/:id/remove_device/:device_id', to: 'rooms#remove_device'
+
   put '/devices/:id/sensors', to: 'devices#append_sensor'
   delete '/devices/:id/sensors/:sensor_id', to: 'devices#remove_sensor'
 

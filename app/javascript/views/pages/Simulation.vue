@@ -4,46 +4,46 @@
       <p class="text-xl p-4 font-bold">Pisos de la casa</p>
       <div class="flex flex-col">
         <a class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-            PISOS
-          </a>
+              PISOS
+            </a>
         <div class="flex flex-col" v-for="(item, key) in floors" :key="`floors-${key}`">
           <a @click="selectFloor(item)"
              :class="{ 'font-bold text-white' : selected === item }"
              class="pl-6 bg-transparent hover:bg-blue-darker text-blue-lighter px-4 py-2 duration-1 cursor-pointer">
-            {{ selected === item ? '➜ ' : '' }}{{ item.name }}
-          </a>
+              {{ selected === item ? '➜ ' : '' }}{{ item.name }}
+            </a>
         </div>
         <a class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-          ACCIONES
-        </a>
+            ACCIONES
+          </a>
         <div class="flex flex-col">
           <a @click="addOptions.open = true" class="pl-6 bg-transparent hover:bg-blue-darker text-blue-lighter px-4 py-2 duration-1 cursor-pointer">
-            <i class="fa fa-plus"></i>Nueva habitación
-          </a>
+              <i class="fa fa-plus"></i>Nueva habitación
+            </a>
         </div>
         <hr class="border-t border-grey-darkest w-full" />
         <a class="bg-transparent font-bold text-white px-4 py-2 mt- duration-1 cursor-pointer">
-          OPCIONES
-        </a>
+            OPCIONES
+          </a>
         <div class="flex flex-col">
           <span class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer">
-            Opacidad
-            <input type="range" class="w-full" name="opacity" min="0" max="100" v-model="opacity" />
-          </span>
+              Opacidad
+              <input type="range" class="w-full" name="opacity" min="0" max="100" v-model="opacity" />
+            </span>
         </div>
         <div class="flex flex-col">
           <span class="bg-transparent text-white px-4 py-2 duration-1">
             <clock :seconds="seconds" @clock="clock = $event"></clock>
           </span>
           <span class="bg-transparent font-bold text-white px-4 py-2 duration-1 cursor-pointer flex flex-wrap flex-row">
-            Velocidades
-            <button class="button w-full py-1 mb-1" :class="(seconds === 1) ? 'primary' : 'white'" @click="seconds = 1">Normal</button>
-            <button class="button w-full py-1 mb-1" :class="(seconds === 60) ? 'primary' : 'white'" @click="seconds = 60"> 1 min. p/seg.</button>
-            <button class="button w-full py-1 mb-1" :class="(seconds === 60 * 5) ? 'primary' : 'white'" @click="seconds = 60 * 5"> 5 min. p/seg.</button>
-            <button class="button w-full py-1 mb-1" :class="(seconds === 60 * 30) ? 'primary' : 'white'" @click="seconds = 60 * 30"> 30 min. p/seg.</button>
-            <button class="button w-full py-1 mb-1" :class="(seconds === 3600) ? 'primary' : 'white'" @click="seconds = 3600"> 1 hora p/seg.</button>
-            <button class="button w-full py-1 mb-1" :class="(seconds === 3600 * 2) ? 'primary' : 'white'" @click="seconds = 3600 * 2"> 2 horas p/seg.</button>
-          </span>
+              <span class="mb-2">Velocidades</span>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 1) ? 'primary' : 'white'" @click="seconds = 1">Normal</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 60) ? 'primary' : 'white'" @click="seconds = 60"> 1 min. p/seg.</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 60 * 5) ? 'primary' : 'white'" @click="seconds = 60 * 5"> 5 min. p/seg.</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 60 * 30) ? 'primary' : 'white'" @click="seconds = 60 * 30"> 30 min. p/seg.</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 3600) ? 'primary' : 'white'" @click="seconds = 3600"> 1 hora p/seg.</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 3600 * 2) ? 'primary' : 'white'" @click="seconds = 3600 * 2"> 2 horas p/seg.</button>
+            </span>
         </div>
       </div>
     </div>
@@ -71,18 +71,21 @@
             <div class="flex flex-col justify-center text-center">
               <p>{{ room.name }}</p>
               <div :class="activeRoom === room ? 'opacity-100' : 'opacity-0'" class="flex flex-row flex-wrap duration-1 justify-center">
-                <button @click="$swal('Not yet')"
+                <button @click="onConfigure(room)"
                         :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+
                         class="delay-1 duration-5 button primary p-0 px-1"
                         type="button"
-                        name="info"><i class="fa fa-info"></i></button>
+                        name="info"><i class="fa fa-cog"></i></button>
                 <button @click="onEdit(room)"
                         :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+
                         class="delay-1 duration-5 button warning p-0 px-1"
                         type="button"
                         name="edit"><i class="fa fa-pencil"></i></button>
                 <button @click="onDelete(room)"
                         :style="activeRoom === room ? 'transform: rotateX(0deg); height: auto;' : 'transform: rotateX(90deg); height: 0;'"
+
                         class="delay-1 duration-5 button danger p-0 px-1"
                         type="button"
                         name="delete"><i class="fa fa-times"></i></button>
@@ -103,12 +106,18 @@
                :room="editOptions.room"
                @fetch="fetchRooms"
                @close="editOptions.open = false"></room-form>
+
+    <room-configuration :open="configOptions.open"
+                        :room="configOptions.room"
+                        @fetch="fetchRooms"
+                        @close="configOptions.open = false"></room-configuration>
   </div>
 </template>
 
 <script>
-import RoomForm from './RoomForm'
-import Clock from './Clock'
+  import RoomForm from './RoomForm'
+  import RoomConfiguration from './RoomConfiguration'
+  import Clock from './Clock'
 
   export default {
     name: 'simulation',
@@ -124,11 +133,17 @@ import Clock from './Clock'
         open: false,
         room: null
       },
+      configOptions: {
+        open: false,
+        room: null
+      },
       seconds: 1,
       clock: null
     }),
     components: {
-      RoomForm, Clock
+      RoomForm,
+      RoomConfiguration,
+      Clock
     },
     beforeMount() {
       this.fetchFloors()
@@ -137,6 +152,10 @@ import Clock from './Clock'
       selectFloor(floor) {
         this.selected = null
         setTimeout(() => (this.selected = floor), 50)
+      },
+      onConfigure(room) {
+        this.configOptions.room = room
+        this.configOptions.open = true
       },
       onEdit(room) {
         this.editOptions.room = room
@@ -231,14 +250,15 @@ import Clock from './Clock'
       },
       fetchRooms() {
         const that = this
-        if(this.selected) this.$axios.get(`/rooms/${this.selected.id}.json`).then(({ data }) => {
-          that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = []
-          that.selected.rooms = []
-          setTimeout(() => {
-            that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = data.rooms
-            that.selected.rooms = data.rooms
-          }, 10)
-        })
+        if (this.selected)
+          this.$axios.get(`/floors/${this.selected.id}/rooms.json`).then(({ data }) => {
+            that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = []
+            that.selected.rooms = []
+            setTimeout(() => {
+              that.floors.filter(floor => floor.id === that.selected.id)[0].rooms = data.rooms
+              that.selected.rooms = data.rooms
+            }, 10)
+          })
       }
     },
     watch: {

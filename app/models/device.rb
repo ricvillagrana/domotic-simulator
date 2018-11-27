@@ -12,6 +12,10 @@ class Device < ApplicationRecord
     device_type
   end
 
+  def environments
+    sensors.map { |s|  s.environment } + actuators.map { |a|  a.environment }
+  end
+
   def changes(status, details = nil)
     log.append(DeviceLog.new(moment: DateTime.now, stauts: status, details: details))
   end
