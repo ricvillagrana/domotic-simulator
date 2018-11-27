@@ -14,7 +14,7 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Símbolos', 'Nombre', 'Variable de ambiente', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
@@ -25,7 +25,7 @@
                 <img v-if="row.symbol_error" class="w-12" :src="row.symbol_error.url" :alt="row.symbol_error.name">
               </td>
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
-              <td class="border border-grey-light py-2 px-4">{{ row.unit_type.symbol }} - {{ row.unit_type.unit }}</td>
+              <td class="border border-grey-light py-2 px-4">{{ row.environment.name }} - [{{ row.environment.unit_type.symbol }}]</td>
               <td class="border border-grey-light py-2 px-4">
                 <div class="flex flex-row">
                   <button @click="openEdit(row)" class="button warning">Editar</button>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :networks
   resources :interfaces
   resources :unit_types
+  resources :environments
   resources :sensors
   resources :actuators
 

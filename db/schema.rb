@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_011617) do
+ActiveRecord::Schema.define(version: 2018_11_27_002906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.bigint "unit_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "environment_id"
+    t.index ["environment_id"], name: "index_actuators_on_environment_id"
     t.index ["unit_type_id"], name: "index_actuators_on_unit_type_id"
   end
 
@@ -103,6 +105,25 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.index ["sensor_id"], name: "index_devices_sensors_on_sensor_id"
   end
 
+  create_table "environment_rooms", force: :cascade do |t|
+    t.bigint "environment_id"
+    t.bigint "room_id"
+    t.string "name"
+    t.float "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["environment_id"], name: "index_environment_rooms_on_environment_id"
+    t.index ["room_id"], name: "index_environment_rooms_on_room_id"
+  end
+
+  create_table "environments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "unit_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_type_id"], name: "index_environments_on_unit_type_id"
+  end
+
   create_table "floors", force: :cascade do |t|
     t.string "name"
     t.integer "position"
@@ -153,6 +174,8 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.bigint "unit_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "environment_id"
+    t.index ["environment_id"], name: "index_sensors_on_environment_id"
     t.index ["unit_type_id"], name: "index_sensors_on_unit_type_id"
   end
 
@@ -164,6 +187,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "actuators", "environments"
   add_foreign_key "actuators_devices", "actuators"
   add_foreign_key "actuators_devices", "devices"
   add_foreign_key "devices", "device_types"
@@ -171,6 +195,10 @@ ActiveRecord::Schema.define(version: 2018_11_18_011617) do
   add_foreign_key "devices_interfaces", "interfaces"
   add_foreign_key "devices_sensors", "devices"
   add_foreign_key "devices_sensors", "sensors"
+  add_foreign_key "environment_rooms", "environments"
+  add_foreign_key "environment_rooms", "rooms"
+  add_foreign_key "environments", "unit_types"
   add_foreign_key "interfaces", "networks"
   add_foreign_key "rooms", "floors"
+  add_foreign_key "sensors", "environments"
 end

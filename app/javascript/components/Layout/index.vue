@@ -33,10 +33,7 @@ export default {
       {
         name: 'Dispositivos',
         path: '/devices',
-        submenu: [{
-            name: 'Dispositivos',
-            path: '/devices'
-          },
+        submenu: [
           {
             name: 'Tipos de dispositivos',
             path: '/device_types'
@@ -48,28 +45,34 @@ export default {
           {
             name: 'Actuadores',
             path: '/actuators'
-          },
-          {
+          }
+        ]
+      },
+      {
+        name: 'Redes',
+        path: '/networks',
+        submenu: [{
             name: 'Interfaces de Red',
             path: '/interfaces'
+          }
+        ]
+      },
+      {
+        name: 'Simulación',
+        path: '/simulation',
+        submenu: [{
+            name: 'Pisos',
+            path: '/floors'
           },
           {
-            name: 'Redes',
-            path: '/networks'
+            name: 'Variables de ambiente',
+            path: '/environments'
           },
           {
             name: 'Unidades de medidición',
             path: '/unit_types'
           }
         ]
-      },
-      {
-        name: 'Pisos',
-        path: '/floors'
-      },
-      {
-        name: 'Simulación',
-        path: '/simulation'
       },
     ]
   })

@@ -14,12 +14,12 @@
                v-model="currentSensor.name" />
         <span class="input-error-message" v-show="errors.name">{{ errors.name }}</span>
 
-        <label for="unit_type" class="label">Unidad de medición:</label>
-        <select name="unit_type" class="input bg-white" :class="{ 'error' : errors.unit_type_id }" v-model="currentSensor.unit_type_id">
-          <option value="0" disabled selected> - Selecciona una unidad de medición - </option>
-          <option v-for="(unit, key) in unitTypes" :key="`unit-${key}`" :value="unit.id">{{ unit.unit }}</option>
+        <label for="environment" class="label">Variable de ambiente:</label>
+        <select name="environment" class="input bg-white" :class="{ 'error' : errors.environment_id }" v-model="currentSensor.environment_id">
+          <option value="0" disabled selected> - Selecciona una - </option>
+          <option v-for="(env, key) in envs" :key="`unit-${key}`" :value="env.id">{{ env.name }}</option>
         </select>
-        <span class="input-error-message" v-show="errors.unit_type_id">{{ errors.unit_type_id }}</span>
+        <span class="input-error-message" v-show="errors.environment_id">{{ errors.environment_id }}</span>
 
         <label for="symbols" class="label">Símbolos:</label>
         <div class="flex flex-row">
@@ -79,20 +79,20 @@
     data: () => ({
       currentSensor: {
         name: '',
-        unit_type_id: 0,
+        environment_id: 0,
         ...symbols
       },
       errors: {
         name: null,
-        unit_type_id: null
+        environment_id: null
       },
       ready: { ...symbols },
       blobs: { ...symbols },
       saving: false,
-      unitTypes: []
+      envs: []
     }),
     beforeMount() {
-      this.fetchUnits()
+      this.fetchEnvironments()
     },
     methods: {
       makeBlobs() {
@@ -204,12 +204,12 @@
             })
         }
       },
-      fetchUnits() {
+      fetchEnvironments() {
         const that = this
         this.$axios
-          .get('/unit_types.json')
+          .get('/environments.json')
           .then(({ data }) => {
-            that.unitTypes = data.unit_types
+            that.envs = data.environments
           })
           .catch(err => {
             that.$swal({
@@ -223,18 +223,18 @@
     computed: {
       invalid() {
         this.errors.name = null
-        this.errors.unit_type_id = null
+        this.errors.environment_id = null
 
         if (this.currentSensor.name === '') this.errors.name = 'Nombre inválido, debe contener algo.'
-        if (this.currentSensor.unit_type_id <= 0 || this.currentSensor.unit_type_id === null)
-          this.errors.unit_type_id = 'Unidad de medición inválida, selecciona una.'
+        if (this.currentSensor.environment_id <= 0 || this.currentSensor.environment_id === null)
+          this.errors.environment_id = 'Unidad de medición inválida, selecciona una.'
 
-        return this.errors.name || this.errors.unit_type_id
+        return this.errors.name || this.errors.environment_id
       }
     },
     watch: {
       sensor() {
-        this.fetchUnits()
+        this.fetchEnvironments()
         if (this.sensor) {
           this.currentSensor = {
             ...symbols,
@@ -244,7 +244,7 @@
           this.currentSensor = {
             name: '',
             description: '',
-            unit_type_id: 0,
+            environment_id: 0,
             ...symbols
           }
         }

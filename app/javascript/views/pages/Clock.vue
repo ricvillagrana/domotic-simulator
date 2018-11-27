@@ -63,7 +63,6 @@
         this.format, // format
         this.speed ? this.speed : 1 // speed
       )
-      this.clock.start()
       this.$emit('clock', this.clock)
     }
   }

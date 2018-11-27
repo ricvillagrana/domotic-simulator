@@ -49,6 +49,6 @@ class ActuatorsController < ApplicationController
   private
 
   def actuator_params
-    params.require(:actuator).permit(:name, :unit_type_id)
+    params.require(:actuator).permit(:name, :environment_id)
   end
 end

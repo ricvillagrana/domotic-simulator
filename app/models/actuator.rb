@@ -1,7 +1,7 @@
 class Actuator < ApplicationRecord
   has_many :log, class_name: 'ActuatorLog', foreign_key: 'actuator_id'
   has_and_belongs_to_many :devices
-  belongs_to :unit_type
+  belongs_to :environment
 
   has_one_attached :symbol_off
   has_one_attached :symbol_on
