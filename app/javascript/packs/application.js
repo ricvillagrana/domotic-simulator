@@ -20,6 +20,7 @@ import Simulation   from '../views/pages/Simulation'
 import Floors       from '../views/floors/'
 import Networks     from '../views/networks/'
 import UnitTypes    from '../views/unit_types/'
+import Environments from '../views/environments/'
 import Interfaces   from '../views/interfaces/'
 import Sensors      from '../views/sensors/'
 import Actuators    from '../views/actuators/'
@@ -50,6 +51,7 @@ document.addEventListener('turbolinks:load', () => {
       Networks,
       Interfaces,
       UnitTypes,
+      Environments,
       Sensors,
       Actuators,
       Devices,

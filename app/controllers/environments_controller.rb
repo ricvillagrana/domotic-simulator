@@ -3,7 +3,7 @@ class EnvironmentsController < ApplicationController
     @environments = Environment.all.order(id: :desc)
     respond_to do |format|
       format.html
-      format.json { render json: { environments: @environments, status: 200 } }
+      format.json { render json: { environments: @environments, status: 200 }, include: [:unit_type] }
     end
   end
 

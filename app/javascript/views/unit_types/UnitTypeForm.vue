@@ -1,7 +1,7 @@
 <template>
   <app-modal :open="open" @close="$emit('close')">
     <div slot="header">
-      {{ unit ? currentUnit.name : 'Nueva Interfaz de Red' }}
+      {{ unit ? currentUnit.name : 'Nueva unidad de medición' }}
     </div>
     <div slot="content">
       <div class="flex flex-col">
