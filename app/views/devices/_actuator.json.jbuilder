@@ -1,6 +1,12 @@
 json.id actuator.id
 json.name actuator.name
-json.unit_type actuator.unit_type
+unless actuator.environment.nil?
+  json.environment do
+    json.name actuator.environment.name
+    json.unit_type actuator.environment.unit_type
+  end
+end
+json.environment_id actuator.environment_id
 json.created_at actuator.created_at
 json.updated_at actuator.updated_at
 if actuator.symbol_on.attached?

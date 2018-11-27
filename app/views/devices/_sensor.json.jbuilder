@@ -1,6 +1,12 @@
 json.id sensor.id
 json.name sensor.name
-json.unit_type sensor.unit_type
+unless sensor.environment.nil?
+  json.environment do
+    json.name sensor.environment.name
+    json.unit_type sensor.environment.unit_type
+  end
+end
+json.environment_id sensor.environment_id
 json.created_at sensor.created_at
 json.updated_at sensor.updated_at
 if sensor.symbol_on.attached?
