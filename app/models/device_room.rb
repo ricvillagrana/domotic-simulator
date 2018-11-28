@@ -7,4 +7,8 @@ class DeviceRoom < ApplicationRecord
     logs.append(data: data)
   end
 
+  def status
+    logs.last
+  end
+
 end

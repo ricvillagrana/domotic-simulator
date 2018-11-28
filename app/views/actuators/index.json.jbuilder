@@ -6,6 +6,11 @@ json.actuators do
       json.environment do
         json.name actuator.environment.name
         json.unit_type actuator.environment.unit_type
+        json.default actuator.environment.default
+        json.minimum actuator.environment.minimum
+        json.maximum actuator.environment.maximum
+        json.tendence actuator.environment.tendence
+        json.time_to_tendence actuator.environment.time_to_tendence
       end
     end
     json.environment_id actuator.environment_id

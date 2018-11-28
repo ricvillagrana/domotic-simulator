@@ -6,6 +6,11 @@ json.sensors do
       json.environment do
         json.name sensor.environment.name
         json.unit_type sensor.environment.unit_type
+        json.default sensor.environment.default
+        json.minimum sensor.environment.minimum
+        json.maximum sensor.environment.maximum
+        json.tendence sensor.environment.tendence
+        json.time_to_tendence sensor.environment.time_to_tendence
       end
     end
     json.environment_id sensor.environment_id
