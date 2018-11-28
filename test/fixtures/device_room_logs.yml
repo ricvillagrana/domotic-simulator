@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  device_room: one
+  data: MyText
+
+two:
+  device_room: two
+  data: MyText

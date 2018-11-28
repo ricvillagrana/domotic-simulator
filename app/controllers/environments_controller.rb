@@ -37,6 +37,6 @@ class EnvironmentsController < ApplicationController
   private
 
   def environment_params
-    params.require(:environment).permit(:name, :unit_type_id)
+    params.require(:environment).permit(:name, :default, :minimum, :maximum, :tendence, :time_to_tendence, :unit_type_id)
   end
 end

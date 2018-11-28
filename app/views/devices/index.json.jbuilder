@@ -3,6 +3,11 @@ json.devices do
     json.id device.id
     json.name device.name
     json.description device.description
+    json.default device.default
+    json.miinimum device.miinimum
+    json.maximum device.maximum
+    json.tendence device.tendence
+    json.time_to_tendence device.time_to_tendence
     json.device_type device.device_type
     json.device_type_id device.device_type_id
     json.created_at device.created_at

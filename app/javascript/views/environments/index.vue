@@ -14,13 +14,17 @@
         <table class="table-fixed rounded bg-white" v-else>
           <thead>
             <tr>
-              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Unidad de medición', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
+              <th class="border-b-2 border border-grey-light py-2 px-8" v-for="(header, key) in ['Nombre', 'Unidad de medición', 'Predeterminado', 'Rango', 'Tendencia', 'Tiempo para estabilizar', 'Acciones']" :key="`header-${key}`">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr class="hover:bg-blue-lightest duration-1" v-for="(row, key) in envs" :key="`data-${key}`">
               <td class="border border-grey-light py-2 px-4">{{ row.name }}</td>
               <td class="border border-grey-light py-2 px-4">{{ row.unit_type.unit }} [{{ row.unit_type.symbol }}]</td>
+              <td class="border border-grey-light py-2 px-4 text-center"><strong>{{ row.default }} {{ row.unit_type.symbol }}</strong></td>
+              <td class="border border-grey-light py-2 px-4 text-center">De <strong>{{ row.minimum }} {{ row.unit_type.symbol }}</strong> a <strong>{{ row.maximum }} {{ row.unit_type.symbol }}</strong></td>
+              <td class="border border-grey-light py-2 px-4 text-center"><strong>{{ row.tendence }} {{ row.unit_type.symbol }}</strong></td>
+              <td class="border border-grey-light py-2 px-4 text-center"><strong>{{ row.time_to_tendence }} seg.</strong></td>
               <td class="border border-grey-light py-2 px-4">
                 <div class="flex flex-row">
                   <button @click="openEdit(row)" class="button warning">Editar</button>

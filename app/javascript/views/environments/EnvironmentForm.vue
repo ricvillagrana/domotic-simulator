@@ -1,5 +1,5 @@
 <template>
-  <app-modal :open="open" @close="$emit('close')">
+  <app-modal :open="open" @close="$emit('close')" :size="'1/3'">
     <div slot="header">
       {{ environment ? currentEnvironment.name : 'Nueva variable ambiental' }}
     </div>
@@ -13,6 +13,56 @@
                placeholder="Ej. Temperatura, Presencia"
                v-model="currentEnvironment.name" />
         <span class="input-error-message" v-show="errors.name">{{ errors.name }}</span>
+
+        <label for="default" class="label">Predeterminado:</label>
+        <input type="number"
+               name="default"
+               class="input"
+               :class="{ 'error' : errors.default }"
+               v-model="currentEnvironment.default" />
+        <span class="input-error-message" v-show="errors.default">{{ errors.default }}</span>
+
+        <div class="flex flex row">
+          <div class="flex flex-col flex-1">
+            <label for="minimum" class="label">Valor mínimo:</label>
+            <input type="number"
+                   name="minimum"
+                   class="input"
+                   :class="{ 'error' : errors.minimum }"
+                   v-model="currentEnvironment.minimum" />
+            <span class="input-error-message" v-show="errors.minimum">{{ errors.minimum }}</span>
+          </div>
+          <div class="flex flex-col flex-1">
+            <label for="maximum" class="label">Valor máximo:</label>
+            <input type="number"
+                   name="maximum"
+                   class="input"
+                   :class="{ 'error' : errors.maximum }"
+                   v-model="currentEnvironment.maximum" />
+            <span class="input-error-message" v-show="errors.maximum">{{ errors.maximum }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex row">
+          <div class="flex flex-col flex-1">
+            <label for="tendence" class="label">Tendencia:</label>
+            <input type="number"
+                   name="tendence"
+                   class="input"
+                   :class="{ 'error' : errors.tendence }"
+                   v-model="currentEnvironment.tendence" />
+            <span class="input-error-message" v-show="errors.tendence">{{ errors.tendence }}</span>
+          </div>
+          <div class="flex flex-col flex-1">
+            <label for="time_to_tendence" class="label">Segundos para estabilizar:</label>
+            <input type="number"
+                   name="time_to_tendence"
+                   class="input"
+                   :class="{ 'error' : errors.time_to_tendence }"
+                   v-model="currentEnvironment.time_to_tendence" />
+            <span class="input-error-message" v-show="errors.time_to_tendence">{{ errors.time_to_tendence }}</span>
+          </div>
+        </div>
 
         <label for="unit_type_id" class="label">Unidad de medición:</label>
         <select name="unit_type_id" class="input bg-white" :class="{ 'error' : errors.unit_type_id }" v-model="currentEnvironment.unit_type_id">
@@ -36,6 +86,16 @@
 <script>
   import AppModal from '../../components/AppModal'
 
+  const environment = {
+    name: '',
+    unit_type_id: 0,
+    default: 0,
+    minimum: 0,
+    maximum: 0,
+    tendence: 0,
+    time_to_tendence: 0
+  }
+
   export default {
     name: 'environment-form',
     props: ['open', 'environment'],
@@ -44,8 +104,7 @@
     },
     data: () => ({
       currentEnvironment: {
-        name: '',
-        unit_type_id: 0
+        ...environment
       },
       errors: {
         name: null,
@@ -82,8 +141,7 @@
             })
             .then(result => {
               that.currentEnvironment = {
-                name: '',
-                unit_type_id: 0
+                ...environment
               }
               that.saving = false
               that.$swal.close()
@@ -133,11 +191,10 @@
       environment() {
         this.fetchUnits()
         if (this.environment) {
-          this.currentEnvironment = { ...this.environment }
+          this.currentEnvironment = { ...environment, ...this.environment }
         } else {
           this.currentEnvironment = {
-            name: '',
-            unit_type_id: 0
+            ...environment
           }
         }
       }

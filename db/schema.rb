@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_27_075048) do
+ActiveRecord::Schema.define(version: 2018_11_28_203758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(version: 2018_11_27_075048) do
     t.index ["device_id"], name: "index_device_logs_on_device_id"
   end
 
+  create_table "device_room_logs", force: :cascade do |t|
+    t.bigint "device_room_id"
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_room_id"], name: "index_device_room_logs_on_device_room_id"
+  end
+
   create_table "device_rooms", force: :cascade do |t|
     t.bigint "device_id"
     t.bigint "room_id"
@@ -130,6 +138,11 @@ ActiveRecord::Schema.define(version: 2018_11_27_075048) do
     t.bigint "unit_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "default"
+    t.float "minimum"
+    t.float "maximum"
+    t.float "tendence"
+    t.integer "time_to_tendence"
     t.index ["unit_type_id"], name: "index_environments_on_unit_type_id"
   end
 
@@ -155,6 +168,14 @@ ActiveRecord::Schema.define(version: 2018_11_27_075048) do
     t.text "configuration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "room_logs", force: :cascade do |t|
+    t.bigint "room_id"
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_room_logs_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -199,6 +220,7 @@ ActiveRecord::Schema.define(version: 2018_11_27_075048) do
   add_foreign_key "actuators", "environments"
   add_foreign_key "actuators_devices", "actuators"
   add_foreign_key "actuators_devices", "devices"
+  add_foreign_key "device_room_logs", "device_rooms"
   add_foreign_key "device_rooms", "devices"
   add_foreign_key "device_rooms", "rooms"
   add_foreign_key "devices", "device_types"
@@ -210,6 +232,7 @@ ActiveRecord::Schema.define(version: 2018_11_27_075048) do
   add_foreign_key "environment_rooms", "rooms"
   add_foreign_key "environments", "unit_types"
   add_foreign_key "interfaces", "networks"
+  add_foreign_key "room_logs", "rooms"
   add_foreign_key "rooms", "floors"
   add_foreign_key "sensors", "environments"
 end
