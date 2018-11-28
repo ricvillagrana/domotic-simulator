@@ -1,30 +1,17 @@
 class Clock {
-  constructor(seconds = 0, minutes = 0, hours = 0, format = 0, speed = 1, stc = 1) {
+  constructor(seconds = 0, minutes = 0, hours = 0, format = 0, speed = 1, secondsToCount = 1) {
+    this.date = new Date(2019, 0, 1, hours, minutes, seconds)
     this.seconds = seconds
     this.minutes = minutes
     this.hours = hours
-    this.days = 0
-    this.format = format
+    this.format = format // 0: 24hrs | 1: 12hrs
     this.speed = speed
-    this.secondsToCount = stc
+    this.secondsToCount = secondsToCount
     this.status = false
 
     this.clockCoutner = null
-  }
 
-  check() {
-    if (this.seconds >= 60) {
-      this.seconds = this.seconds - 60
-      this.minutes = this.minutes + 1
-    }
-    if (this.minutes >= 60) {
-      this.minutes = this.minutes - 60
-      this.hours = this.hours + 1
-    }
-    if (this.hours >= 24) {
-      this.hours = this.hours - 24
-      this.days = this.days + 1
-    }
+    this.updateTime()
   }
 
   isCounting = () => this.status
@@ -35,34 +22,95 @@ class Clock {
   }
 
   count() {
-    let time = this.secondsToCount
-    if (time >= 60) {
-      this.seconds = this.seconds + time % 60
-      time = Math.floor(time / 60)
+    this.date.setSeconds(this.date.getSeconds() + this.secondsToCount)
+    this.updateTime()
+  }
 
-      if (time >= 60) {
-        this.minutes = this.minutes + time % 60
-        time = Math.floor(time / 60)
+  updateTime() {
+    this.seconds = this.date.getSeconds()
+    this.minutes = this.date.getMinutes()
+    this.hours = this.getHoursWithFormat()
+    this.day = this.date.getDate ()
+    this.weekDay =  this.weekDayToText(this.date.getDay())
+    this.month = this.date.getMonth()
+    this.monthText = this.monthToText(this.date.getMonth())
+    this.year = this.date.getFullYear()
+  }
 
-        if (time >= 24) {
-          this.hours = this.hours + time % 24
-          this.days = this.days + Math.floor(time / 60)
+  weekDayToText(number) {
+    switch (number) {
+      case 0:
+        return 'Domingo'
+        break
+      case 1:
+        return 'Lunes'
+        break
+      case 2:
+        return 'Martes'
+        break
+      case 3:
+        return 'Miércoles'
+        break
+      case 4:
+        return 'Jueves'
+        break
+      case 5:
+        return 'Viernes'
+        break
+      case 6:
+        return 'Sábado'
+        break
+      default:
 
-        } else{
-          this.hours = this.hours + time
-        }
-      } else {
-        this.minutes = this.minutes + time
-      }
-    } else this.seconds = this.seconds + time
-    this.check()
+    }
+  }
+
+  monthToText(number) {
+    switch (number) {
+      case 0:
+        return 'Enero'
+        break
+      case 1:
+        return 'Febrero'
+        break
+      case 2:
+        return 'Marzo'
+        break
+      case 3:
+        return 'Abril'
+        break
+      case 4:
+        return 'Mayo'
+        break
+      case 5:
+        return 'Junio'
+        break
+      case 6:
+        return 'Julio'
+        break
+      case 7:
+        return 'Agosto'
+        break
+      case 8:
+        return 'Septiembre'
+        break
+      case 9:
+        return 'Octubre'
+        break
+      case 10:
+        return 'Noviembre'
+        break
+      case 11:
+        return 'Diciembre'
+        break
+      default: 'Desconocido'
+
+    }
   }
 
   start() {
     this.status = true
-    this.clockCoutner = setInterval(() => {
-      this.count()
-    }, this.speedness())
+    this.clockCoutner = setInterval(() => this.count(), this.speedness())
   }
 
   stop() {
@@ -72,27 +120,32 @@ class Clock {
 
   speedness = () => 1000 / this.speed
 
-  getTime = () => this
+  getDate = () => this.date.getDate()
+  getYear = () => this.date.getYear()
+  getMonth = () => this.date.getMonth()
+  getDay = () => this.date.getDay()
 
-  getHours = () => {
+
+  getTime = () => this.date.getTime()
+  getHours = () => this.date.getHours()
+  getMinutes = () => this.date.getMinutes()
+  getSeconds = () => this.date.getSeconds()
+
+  getHoursWithFormat = () => {
     if (this.format === 1){
-      if (this.hours > 12) return this.hours - 12
-      if(this.hours === 0) return 12
+      if (this.date.getHours() > 12) return this.date.getHours() - 12
+      if(this.date.getHours() === 0) return 12
     }
-    return this.hours
+    return this.date.getHours()
   }
-
-  getMinutes = () => this.minutes < 10 ? `0${this.minutes}` : this.minutes
-
-  getSeconds = () => this.seconds < 10 ? `0${this.seconds}` : this.seconds
 
   getSecondsToCount = () => this.secondsToCount
 
-  getFormat = () => this.format === 0 ? 'hrs' : this.hours >= 12 ? 'PM' : 'AM'
+  getFormat = () => this.format === 1 ? this.date.getHours() >= 12 ? 'PM' : 'AM' : 'hrs'
 
   getFormatNumber = () => this.format
 
-  showTime = () => `${this.getHours()}:${this.getMinutes()}:${this.getSeconds()} ${this.getFormat()}`
+  showTime = () => `${this.getHoursWithFormat()}:${this.date.getMinutes()}:${this.date.getSeconds()} ${this.getFormat()}`
 
   setSpeed(speed) {
     if (speed) this.speed = speed
@@ -104,12 +157,11 @@ class Clock {
 
   setFormat(format) {
     this.format = format
+    this.updateTime()
   }
 
   setTime(seconds = 0, minutes = 0, hours = 0, format = 0, speed = 1) {
-    this.seconds = seconds
-    this.minutes = minutes
-    this.hours = hours
+    this.date = new Date(2019, 0, 1, hours, minutes, seconds)
     this.format = format
     this.speed = speed
 

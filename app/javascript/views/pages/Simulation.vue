@@ -43,6 +43,7 @@
               <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 60 * 30) ? 'primary' : 'white'" @click="seconds = 60 * 30"> 30 min. p/seg.</button>
               <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 3600) ? 'primary' : 'white'" @click="seconds = 3600"> 1 hora p/seg.</button>
               <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 3600 * 2) ? 'primary' : 'white'" @click="seconds = 3600 * 2"> 2 horas p/seg.</button>
+              <button class="button w-full py-1 mb-1 mx-0" :class="(seconds === 3600 * 24) ? 'primary' : 'white'" @click="seconds = 3600 * 24"> 24 horas p/seg.</button>
             </span>
         </div>
       </div>

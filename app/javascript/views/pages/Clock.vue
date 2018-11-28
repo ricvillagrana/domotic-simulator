@@ -1,13 +1,14 @@
 <template>
   <div v-if="clock">
     <div class="flex flex-col justify-center">
+      {{ clock.day }} de {{ clock.monthText }} de {{ clock.year }}
       <div class="flex w-full justify-center text-center mb-0 p-2 bg-white text-blue-dark rounded-t">
         <p class="font-bold">
-          <span>{{ clock.getHours() }}</span>
+          <span>{{ clock.hours }}</span>
           <span> : </span>
-          <span>{{ clock.getMinutes() }}</span>
+          <span>{{ clock.minutes }}</span>
           <span> : </span>
-          <span>{{ clock.getSeconds() }}</span>
+          <span>{{ clock.seconds }}</span>
           <span> {{ clock.getFormat() }}</span>
         </p>
       </div>
@@ -58,11 +59,12 @@
     mounted() {
       this.clock = new this.$clock(
         0, // seconds
-        0, // minutes
+        5, // minutes
         0, // hours
         this.format, // format
         this.speed ? this.speed : 1 // speed
       )
+      window.clock = this.clock
       this.$emit('clock', this.clock)
     }
   }
