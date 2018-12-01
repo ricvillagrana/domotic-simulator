@@ -12,6 +12,11 @@ Rails.application.routes.draw do
   resources :sensors
   resources :actuators
 
+  resources :settings
+
+  post '/settings', to: 'settigns#create'
+  get '/settings/:name', to: 'settigns#show'
+
   get '/floors/:id/rooms', to: 'floors#rooms'
   get '/rooms/:id/devices', to: 'rooms#devices'
 

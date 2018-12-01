@@ -1,9 +1,6 @@
 class Clock {
-  constructor(seconds = 0, minutes = 0, hours = 0, format = 0, speed = 1, secondsToCount = 1) {
-    this.date = new Date(2019, 0, 1, hours, minutes, seconds)
-    this.seconds = seconds
-    this.minutes = minutes
-    this.hours = hours
+  constructor(date = new Date(), format = 0, speed = 1, secondsToCount = 1) {
+    this.date = new Date(date)
     this.format = format // 0: 24hrs | 1: 12hrs
     this.speed = speed
     this.secondsToCount = secondsToCount
@@ -160,12 +157,14 @@ class Clock {
     this.updateTime()
   }
 
-  setTime(seconds = 0, minutes = 0, hours = 0, format = 0, speed = 1) {
-    this.date = new Date(2019, 0, 1, hours, minutes, seconds)
+  setTime(date, format = 0, speed = 1) {
+    this.date = new Date(date)
     this.format = format
     this.speed = speed
 
     this.clockCoutner = null
+
+    return this
   }
 }
 

@@ -6,9 +6,9 @@
         <p class="font-bold">
           <span>{{ clock.hours }}</span>
           <span> : </span>
-          <span>{{ clock.minutes }}</span>
+          <span>{{ twoDigits(clock.minutes) }}</span>
           <span> : </span>
-          <span>{{ clock.seconds }}</span>
+          <span>{{ twoDigits(clock.seconds) }}</span>
           <span> {{ clock.getFormat() }}</span>
         </p>
       </div>
@@ -42,7 +42,8 @@
       toggleFormat() {
         this.format = this.format === 1 ? 0 : 1
         this.clock.setFormat(this.format)
-      }
+      },
+      twoDigits: n => n > 9 ? n : `0${n}`
     },
     watch: {
       speed() {
@@ -53,19 +54,23 @@
       },
       seconds() {
         this.clock.setSecondsToCount(this.seconds)
-      }
+      },
     },
     created() {},
+    updated() {
+      this.$setSettings('time', this.$moment(this.clock.getTime())._d)
+    },
     mounted() {
-      this.clock = new this.$clock(
-        0, // seconds
-        5, // minutes
-        0, // hours
-        this.format, // format
-        this.speed ? this.speed : 1 // speed
-      )
-      window.clock = this.clock
-      this.$emit('clock', this.clock)
+      const that = this
+      this.$getSettings('time', (data) => {
+        const serverTime = new Date(data)
+        that.clock = this.$clock.setTime(
+          serverTime,
+          that.format, // format
+          that.speed ? that.speed : 1 // speed
+        )
+        that.$emit('clock', this.clock)
+      })
     }
   }
 </script>
