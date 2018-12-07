@@ -22,7 +22,9 @@ json.floors do
         json.id room.id
         json.floor_id room.floor_id
         json.name room.name
+        json.data room.data.as_json
         json.environments room.environments
+        json.data room.data.as_json
         json.sizes room.sizes.as_json
         json.position room.position.as_json
         json.color room.color.as_json

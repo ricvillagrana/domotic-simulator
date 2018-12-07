@@ -8,6 +8,8 @@ class Room < ApplicationRecord
   has_many :device_rooms
   has_many :devices, through: :device_rooms
 
+  serialize :data
+
 
   def env
     environments

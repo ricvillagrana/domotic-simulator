@@ -38,10 +38,7 @@ class FloorsController < ApplicationController
   end
 
   def rooms
-    respond_to do |format|
-      format.html
-      format.json { render json: { rooms: current_floor.rooms, status: 200 } }
-    end
+    @rooms = current_floor.rooms
   end
 
   def current_floor

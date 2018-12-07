@@ -148,8 +148,55 @@
     },
     beforeMount() {
       this.fetchFloors()
+      const that = this
+      window.mutate = function () {
+        that.mutate()
+      }
+    },
+    computed: {
+      rooms() {
+        return this.floors.map(floor => {
+          return floor.rooms.map(room => {
+            return {
+              ...room,
+              environments: room.environments,
+              sensors: room.devices ? room.devices.map(device => device.sensors).flat() : [],
+              actuators: room.devices ? room.devices.map(device => device.actuators).flat() : [],
+              interfaces: room.devices ? room.devices.map(device => device.interfaces).flat() : []
+            }
+          })
+        }).flat()
+      }
     },
     methods: {
+      mutate() {
+        const toChange = this.checkEnvironments(this.rooms)
+      },
+      checkEnvironments(rooms) {
+        const that = this
+
+        return rooms.map(room => {
+          return room.environments.map(env => {
+            const roomVariable = room.data ? room.data.filter(e => e.environment_id === env.id) : null
+
+            if (roomVariable){
+              // Sensors log
+              const sensors = room.sensors.filter(sensor => sensor.environment.id === env.id)
+
+              sensors.map(sensor => {
+                // that.$axios.post(`/sensors/sense`, )
+                console.log({
+                  floor_id: room.floor_id,
+                  room_id: room.id,
+                  sensor_id: sensor.id,
+                  data: roomVariable
+                })
+              })
+              if (roomVariable < env.tendence) {}
+            }
+          })
+        })
+      },
       selectFloor(floor) {
         this.selected = null
         setTimeout(() => (this.selected = floor), 50)

@@ -4,10 +4,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html
-      format.json { render json: { room: current_room, status: 200 }, include: [:environments, :devices] }
-    end
+    @room = current_room
   end
 
   def create

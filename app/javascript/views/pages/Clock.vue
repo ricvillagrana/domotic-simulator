@@ -1,8 +1,12 @@
 <template>
   <div v-if="clock">
     <div class="flex flex-col justify-center">
-      {{ clock.day }} de {{ clock.monthText }} de {{ clock.year }}
-      <div class="flex w-full justify-center text-center mb-0 p-2 bg-white text-blue-dark rounded-t">
+      <div class="flex w-full justify-center text-center mb-0 p-2 bg-white text-blue-dark rounded-t border-b">
+        <p class="font-bold">
+          <span>{{ clock.day }} de {{ clock.monthText }} de {{ clock.year }}</span>
+        </p>
+      </div>
+      <div class="flex w-full justify-center text-center mb-0 p-2 bg-white text-blue-dark">
         <p class="font-bold">
           <span>{{ clock.hours }}</span>
           <span> : </span>
@@ -29,7 +33,8 @@
     components: {},
     props: {
       speed: Number,
-      seconds: Number
+      seconds: Number,
+      onChange: Function
     },
     data() {
       return {

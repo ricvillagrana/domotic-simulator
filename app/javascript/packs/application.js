@@ -8,6 +8,11 @@ import VueDraggableResizable from 'vue-draggable-resizable'
 // class
 import Clock from './class/clock.js'
 
+// Native JS prototypes
+Array.prototype.totalFlat = (arr1) => {
+   return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), [])
+}
+
 Vue.prototype.$axios    = axios
 const token = document.head.querySelector('meta[name="csrf-token"]')
 Vue.prototype.$axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
@@ -98,7 +103,6 @@ Vue.prototype.$getSettings('time', (data) => {
     1 // speed
   )
 })
-
 
 Vue.component('vue-draggable', VueDraggableResizable)
 
